@@ -125,6 +125,10 @@
       margin-top: 3.5rem;
       opacity: 0;
       animation: fadeUp 1s ease 1.5s forwards;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
     }
     .scroll-cta span {
       display: block;
@@ -133,6 +137,7 @@
       text-transform: uppercase;
       color: var(--mid);
       margin-bottom: 0.6rem;
+      font-family: 'Montserrat', sans-serif;
     }
     .scroll-arrow {
       width: 28px; height: 28px;
@@ -457,10 +462,10 @@
     <span class="divider-line"></span>
   </div>
 
-  <div class="scroll-cta">
+  <button class="scroll-cta" onclick="document.querySelector('.verse-banner').scrollIntoView({behavior:'smooth'})">
     <span>scroll to explore</span>
     <div class="scroll-arrow"></div>
-  </div>
+  </button>
 </section>
 
 <!-- ── VERSE ── -->
@@ -615,9 +620,7 @@
 
   // ── Petals: re-trigger animation loop ──
   document.querySelectorAll('.petal').forEach(petal => {
-    const dur = parseFloat(getComputedStyle(petal).animationDuration) * 1000;
     function resetPetal() {
-      petal.style.top = '-60px';
       petal.style.animationName = 'none';
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -628,6 +631,58 @@
     }
     petal.addEventListener('animationend', resetPetal);
   });
+
+  // ── Gold dust particles ──
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:1;';
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function mkParticle(spreadY) {
+    const maxLife = Math.random() * 220 + 160;
+    return {
+      x: Math.random() * canvas.width,
+      y: spreadY ? Math.random() * canvas.height : canvas.height + Math.random() * 60,
+      size: Math.random() * 1.4 + 0.4,
+      speed: Math.random() * 0.35 + 0.12,
+      maxOpacity: Math.random() * 0.35 + 0.08,
+      wobbleAmp: Math.random() * 0.4 - 0.2,
+      wobbleSpeed: Math.random() * 0.025 + 0.006,
+      wobbleOff: Math.random() * Math.PI * 2,
+      life: spreadY ? Math.random() * maxLife : 0,
+      maxLife,
+    };
+  }
+
+  const particles = Array.from({ length: 70 }, () => mkParticle(true));
+
+  function animateDust() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.life++;
+      p.y -= p.speed;
+      p.x += Math.sin(p.wobbleOff + p.life * p.wobbleSpeed) * p.wobbleAmp;
+      const half = p.maxLife / 2;
+      const op = p.life < half
+        ? (p.life / half) * p.maxOpacity
+        : ((p.maxLife - p.life) / half) * p.maxOpacity;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,169,110,${op})`;
+      ctx.fill();
+      if (p.life >= p.maxLife) particles[i] = mkParticle(false);
+    }
+    requestAnimationFrame(animateDust);
+  }
+  animateDust();
 </script>
 </body>
 </html>
