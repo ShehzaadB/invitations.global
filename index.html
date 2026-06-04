@@ -67,17 +67,6 @@
       pointer-events: none;
     }
 
-    .star-motif {
-      position: absolute;
-      opacity: 0;
-      animation: starFade 2s ease forwards;
-    }
-    .star-motif svg { fill: none; stroke: var(--gold); stroke-width: 0.5; }
-    .star-motif:nth-child(1) { top: 8%; left: 6%; width: 80px; animation-delay: 0.4s; }
-    .star-motif:nth-child(2) { top: 8%; right: 6%; width: 80px; animation-delay: 0.6s; }
-    .star-motif:nth-child(3) { bottom: 10%; left: 6%; width: 60px; animation-delay: 0.8s; }
-    .star-motif:nth-child(4) { bottom: 10%; right: 6%; width: 60px; animation-delay: 1s; }
-
     .bismillah-hero {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(0.85rem, 2vw, 1rem);
@@ -389,10 +378,6 @@
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes starFade {
-      from { opacity: 0; transform: rotate(-15deg) scale(0.8); }
-      to   { opacity: 1; transform: rotate(0deg) scale(1); }
-    }
     @keyframes bounce {
       0%, 100% { transform: rotate(45deg) translateY(0); }
       50%       { transform: rotate(45deg) translateY(6px); }
@@ -454,28 +439,6 @@
 <!-- ── HERO ── -->
 <section id="hero">
 
-  <!-- Islamic 8-point star corners -->
-  <div class="star-motif">
-    <svg width="80" height="80" viewBox="0 0 80 80">
-      <polygon points="40,5 46,30 70,22 54,40 70,58 46,50 40,75 34,50 10,58 26,40 10,22 34,30" stroke-width="0.7"/>
-    </svg>
-  </div>
-  <div class="star-motif">
-    <svg width="80" height="80" viewBox="0 0 80 80">
-      <polygon points="40,5 46,30 70,22 54,40 70,58 46,50 40,75 34,50 10,58 26,40 10,22 34,30" stroke-width="0.7"/>
-    </svg>
-  </div>
-  <div class="star-motif">
-    <svg width="60" height="60" viewBox="0 0 80 80">
-      <polygon points="40,5 46,30 70,22 54,40 70,58 46,50 40,75 34,50 10,58 26,40 10,22 34,30" stroke-width="0.7"/>
-    </svg>
-  </div>
-  <div class="star-motif">
-    <svg width="60" height="60" viewBox="0 0 80 80">
-      <polygon points="40,5 46,30 70,22 54,40 70,58 46,50 40,75 34,50 10,58 26,40 10,22 34,30" stroke-width="0.7"/>
-    </svg>
-  </div>
-
   <p class="bismillah-hero">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
 
   <div class="divider">
@@ -528,12 +491,12 @@
     <div class="detail-card">
       <div class="detail-icon">◇</div>
       <h3>Nikah Ceremony</h3>
-      <p>Friday<br />15 August 2025<br />12:00 PM — After Jumu'ah</p>
+      <p>Friday<br />15 August 2026<br />12:00 PM — After Jumu'ah</p>
     </div>
     <div class="detail-card">
       <div class="detail-icon">◇</div>
       <h3>Walima Reception</h3>
-      <p>Saturday<br />16 August 2025<br />6:00 PM — 10:00 PM</p>
+      <p>Saturday<br />16 August 2026<br />6:00 PM — 10:00 PM</p>
     </div>
     <div class="detail-card">
       <div class="detail-icon">◇</div>
@@ -599,12 +562,12 @@
     </select>
     <button type="submit" class="btn-gold">Confirm Attendance</button>
   </form>
-  <p class="rsvp-note">Please RSVP by 1 August 2025 · JazakAllah Khayran</p>
+  <p class="rsvp-note">Please RSVP by 1 August 2026 · JazakAllah Khayran</p>
 </div>
 
 <!-- ── FOOTER ── -->
 <footer>
-  <p>S &amp; R — August 2025</p>
+  <p>S &amp; R — August 2026</p>
   <span class="footer-gold">بارك الله لكما وبارك عليكما وجمع بينكما في خير</span>
 </footer>
 
@@ -632,7 +595,7 @@
   document.querySelectorAll('.reveal, .details-grid').forEach(el => observer.observe(el));
 
   // ── Countdown ──
-  const weddingDate = new Date('2025-08-15T12:00:00');
+  const weddingDate = new Date('2026-08-15T12:00:00');
   function updateCountdown() {
     const now = new Date();
     const diff = weddingDate - now;
