@@ -22,7 +22,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--cream);
+      background: linear-gradient(180deg, var(--cream) 0%, #f4f7ee 40%, #f0f5e8 70%, var(--cream) 100%);
       color: var(--dark);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
@@ -55,15 +55,32 @@
       padding: 2rem;
       position: relative;
       overflow: hidden;
+      background:
+        linear-gradient(180deg,
+          rgba(250,248,245,0.97) 0%,
+          rgba(248,246,240,0.88) 22%,
+          rgba(244,248,234,0.72) 46%,
+          rgba(236,246,218,0.78) 68%,
+          rgba(228,242,208,0.86) 100%
+        ),
+        radial-gradient(ellipse 58% 42% at 10% 90%, rgba(48,85,20,0.98) 0%, rgba(72,112,36,0.7) 35%, transparent 62%),
+        radial-gradient(ellipse 44% 35% at 34% 96%, rgba(38,72,15,0.95) 0%, rgba(62,100,30,0.65) 38%, transparent 58%),
+        radial-gradient(ellipse 52% 40% at 60% 92%, rgba(45,80,18,0.96) 0%, rgba(68,108,34,0.68) 40%, transparent 60%),
+        radial-gradient(ellipse 48% 36% at 86% 88%, rgba(42,76,16,0.94) 0%, rgba(65,104,32,0.64) 38%, transparent 56%),
+        radial-gradient(ellipse 34% 24% at 24% 70%, rgba(88,132,48,0.58) 0%, transparent 42%),
+        radial-gradient(ellipse 28% 20% at 68% 64%, rgba(80,125,44,0.52) 0%, transparent 38%),
+        radial-gradient(ellipse 22% 16% at 48% 78%, rgba(96,145,55,0.45) 0%, transparent 34%),
+        linear-gradient(180deg, #eef5e0 0%, #c5df88 20%, #88b840 38%, #548020 54%, #2a5208 68%, #122808 82%, #081802 100%);
     }
 
-    /* Geometric Islamic motif background */
+    /* Gold warm light overlay */
     #hero::before {
       content: '';
       position: absolute; inset: 0;
       background-image:
-        radial-gradient(circle at 20% 20%, rgba(201,169,110,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(201,169,110,0.08) 0%, transparent 50%);
+        radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,169,110,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 20% 15%, rgba(201,169,110,0.07) 0%, transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(201,169,110,0.07) 0%, transparent 40%);
       pointer-events: none;
     }
 
