@@ -6,7 +6,7 @@
   <title>S & R — Wedding Invitation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -17,12 +17,16 @@
       --dark: #2a2520;
       --mid: #6b5f52;
       --white: #ffffff;
+      --sage: #8aaa6a;
+      --sage-light: #c8ddb8;
+      --blush: #e8a0b4;
+      --blush-light: #f5d8e2;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--cream);
+      background: #f6f9f3;
       color: var(--dark);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
@@ -49,6 +53,8 @@
     /* ── Hero ── */
     #hero {
       min-height: 100svh;
+      width: 100%;
+      max-width: none;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
@@ -57,14 +63,39 @@
       overflow: hidden;
     }
 
-    /* Geometric Islamic motif background */
+    /* Watercolor blob overlays */
     #hero::before {
       content: '';
       position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(201,169,110,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(201,169,110,0.08) 0%, transparent 50%);
+      background:
+        radial-gradient(ellipse 55% 48% at 0% 0%,   rgba(138,170,106,0.28) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 44% at 100% 0%,  rgba(138,170,106,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 40% at 100% 100%,rgba(200,221,184,0.25) 0%, transparent 52%),
+        radial-gradient(ellipse 50% 45% at 0% 100%,  rgba(200,221,184,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 26% at 88% 12%,  rgba(232,160,180,0.14) 0%, transparent 50%),
+        radial-gradient(ellipse 26% 22% at 12% 88%,  rgba(232,160,180,0.12) 0%, transparent 46%),
+        radial-gradient(circle at 50% 50%, rgba(201,169,110,0.05) 0%, transparent 60%);
       pointer-events: none;
+    }
+
+    /* Botanical corner SVGs */
+    .botanical {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .botanical-tl { top: 0; left: 0;   width: clamp(180px,34vw,280px); }
+    .botanical-tr { top: 0; right: 0;  width: clamp(150px,28vw,240px); transform: scaleX(-1); }
+    .botanical-br { bottom: 0; right: 0; width: clamp(180px,34vw,280px); transform: rotate(180deg); }
+    .botanical-bl { bottom: 0; left: 0;  width: clamp(130px,22vw,200px); transform: scaleY(-1); }
+
+    /* Hero inner content sits above botanicals */
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .bismillah-hero {
@@ -94,20 +125,20 @@
     }
 
     .hero-names {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(4.5rem, 14vw, 9rem);
-      font-weight: 300;
-      line-height: 1;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(4rem, 13vw, 8.5rem);
+      font-weight: 400;
+      line-height: 1.1;
       color: var(--dark);
       opacity: 0;
       animation: fadeUp 1s ease 0.9s forwards;
     }
     .hero-names .amp {
-      font-style: italic;
+      font-family: 'Great Vibes', cursive;
       color: var(--gold);
-      font-size: 0.65em;
+      font-size: 0.7em;
       vertical-align: middle;
-      margin: 0 0.15em;
+      margin: 0 0.1em;
     }
 
     .hero-sub {
@@ -444,28 +475,100 @@
 <!-- ── HERO ── -->
 <section id="hero">
 
-  <p class="bismillah-hero">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+  <!-- Botanical corners -->
+  <svg class="botanical botanical-tl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
+    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M48,-6 Q60,18 66,44" stroke="#8aaa6a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.62"/>
+    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.85"/>
+    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.8"/>
+    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.8"/>
+    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.75"/>
+    <path d="M102,152 Q80,140 75,116 Q95,130 102,152" fill="#7a9a5a" opacity="0.72"/>
+    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.76"/>
+    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.7"/>
+    <path d="M66,44 Q50,35 49,15 Q62,27 66,44" fill="#7a9a5a" opacity="0.68"/>
+    <path d="M66,44 Q80,30 78,10 Q70,28 66,44" fill="#8aaa6a" opacity="0.62"/>
+    <!-- Anemone flower -->
+    <g transform="translate(10,56)">
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f8d4df" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="5.5" fill="#2a2520"/>
+      <circle cx="0.5" cy="-0.5" r="2" fill="#504030" opacity="0.5"/>
+    </g>
+    <!-- Small bud -->
+    <g transform="translate(56,16)">
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(90)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(270)"/>
+      <circle cx="0" cy="0" r="3.8" fill="#2a2520"/>
+    </g>
+    <!-- Berries -->
+    <circle cx="102" cy="152" r="3.5" fill="#c8ddb8" opacity="0.85"/>
+    <circle cx="110" cy="147" r="2.8" fill="#b8cda8" opacity="0.78"/>
+    <circle cx="97"  cy="160" r="2.5" fill="#c8ddb8" opacity="0.72"/>
+  </svg>
 
-  <div class="divider">
-    <span class="divider-line"></span>
-    <span class="divider-diamond"></span>
-    <span class="divider-line"></span>
+  <svg class="botanical botanical-tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
+    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.82"/>
+    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.78"/>
+    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.76"/>
+    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.72"/>
+    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.72"/>
+    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.68"/>
+  </svg>
+
+  <svg class="botanical botanical-br" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
+    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M48,-6 Q60,18 66,44" stroke="#8aaa6a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.62"/>
+    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.85"/>
+    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.8"/>
+    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.8"/>
+    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.75"/>
+    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.76"/>
+    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.7"/>
+    <path d="M66,44 Q50,35 49,15 Q62,27 66,44" fill="#7a9a5a" opacity="0.68"/>
+    <path d="M66,44 Q80,30 78,10 Q70,28 66,44" fill="#8aaa6a" opacity="0.62"/>
+    <g transform="translate(10,56)">
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(72)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f8d4df" transform="rotate(144)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(216)"/>
+      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(288)"/>
+      <circle cx="0" cy="0" r="5.5" fill="#2a2520"/>
+    </g>
+    <g transform="translate(56,16)">
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(0)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(90)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(270)"/>
+      <circle cx="0" cy="0" r="3.8" fill="#2a2520"/>
+    </g>
+    <circle cx="102" cy="152" r="3.5" fill="#c8ddb8" opacity="0.85"/>
+    <circle cx="110" cy="147" r="2.8" fill="#b8cda8" opacity="0.78"/>
+    <circle cx="97"  cy="160" r="2.5" fill="#c8ddb8" opacity="0.72"/>
+  </svg>
+
+  <!-- Content -->
+  <div class="hero-inner">
+    <p class="bismillah-hero">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+
+    <h1 class="hero-names">Shehzaad <span class="amp">&amp;</span> Ramsha</h1>
+
+    <p class="hero-sub">are getting married</p>
+
+    <button class="scroll-cta" onclick="document.querySelector('.verse-banner').scrollIntoView({behavior:'smooth'})">
+      <span>scroll to explore</span>
+      <div class="scroll-arrow"></div>
+    </button>
   </div>
-
-  <h1 class="hero-names">S <span class="amp">&amp;</span> R</h1>
-
-  <p class="hero-sub">are getting married</p>
-
-  <div class="divider" style="animation-delay:1.3s;">
-    <span class="divider-line"></span>
-    <span class="divider-diamond"></span>
-    <span class="divider-line"></span>
-  </div>
-
-  <button class="scroll-cta" onclick="document.querySelector('.verse-banner').scrollIntoView({behavior:'smooth'})">
-    <span>scroll to explore</span>
-    <div class="scroll-arrow"></div>
-  </button>
 </section>
 
 <!-- ── VERSE ── -->
