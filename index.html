@@ -26,7 +26,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: #f6f9f3;
+      background: #fdf9f2;
       color: var(--dark);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
@@ -68,34 +68,31 @@
       content: '';
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 55% 48% at 0% 0%,   rgba(138,170,106,0.28) 0%, transparent 58%),
-        radial-gradient(ellipse 50% 44% at 100% 0%,  rgba(138,170,106,0.22) 0%, transparent 55%),
-        radial-gradient(ellipse 45% 40% at 100% 100%,rgba(200,221,184,0.25) 0%, transparent 52%),
-        radial-gradient(ellipse 50% 45% at 0% 100%,  rgba(200,221,184,0.22) 0%, transparent 55%),
-        radial-gradient(ellipse 30% 26% at 88% 12%,  rgba(232,160,180,0.14) 0%, transparent 50%),
-        radial-gradient(ellipse 26% 22% at 12% 88%,  rgba(232,160,180,0.12) 0%, transparent 46%),
-        radial-gradient(circle at 50% 50%, rgba(201,169,110,0.05) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 52% at 0% 0%,    rgba(122,158,160,0.10) 0%, transparent 62%),
+        radial-gradient(ellipse 55% 48% at 100% 0%,  rgba(122,158,160,0.08) 0%, transparent 58%),
+        radial-gradient(ellipse 50% 46% at 100% 100%,rgba(138,154,120,0.09) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 50% at 0% 100%,  rgba(138,154,120,0.08) 0%, transparent 58%),
+        radial-gradient(circle at 50% 50%, rgba(253,249,242,0.0) 0%, transparent 70%);
       pointer-events: none;
     }
 
-    /* Botanical corner SVGs */
-    .botanical {
+    /* Watercolor botanical frame */
+    .hero-frame {
       position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 0;
     }
-    .botanical-tl { top: 0; left: 0;   width: clamp(180px,34vw,280px); }
-    .botanical-tr { top: 0; right: 0;  width: clamp(150px,28vw,240px); transform: scaleX(-1); }
-    .botanical-br { bottom: 0; right: 0; width: clamp(180px,34vw,280px); transform: rotate(180deg); }
-    .botanical-bl { bottom: 0; left: 0;  width: clamp(130px,22vw,200px); transform: scaleY(-1); }
-
-    /* Hero inner content sits above botanicals */
     .hero-inner {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0 clamp(60px, 15vw, 110px);
+      width: 100%;
     }
 
     .bismillah-hero {
@@ -475,85 +472,295 @@
 <!-- ── HERO ── -->
 <section id="hero">
 
-  <!-- Botanical corners -->
-  <svg class="botanical botanical-tl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
-    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
-    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
-    <path d="M48,-6 Q60,18 66,44" stroke="#8aaa6a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.62"/>
-    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.85"/>
-    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.8"/>
-    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.8"/>
-    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.75"/>
-    <path d="M102,152 Q80,140 75,116 Q95,130 102,152" fill="#7a9a5a" opacity="0.72"/>
-    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.76"/>
-    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.7"/>
-    <path d="M66,44 Q50,35 49,15 Q62,27 66,44" fill="#7a9a5a" opacity="0.68"/>
-    <path d="M66,44 Q80,30 78,10 Q70,28 66,44" fill="#8aaa6a" opacity="0.62"/>
-    <!-- Anemone flower -->
-    <g transform="translate(10,56)">
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(0)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(72)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f8d4df" transform="rotate(144)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(216)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(288)"/>
-      <circle cx="0" cy="0" r="5.5" fill="#2a2520"/>
-      <circle cx="0.5" cy="-0.5" r="2" fill="#504030" opacity="0.5"/>
-    </g>
-    <!-- Small bud -->
-    <g transform="translate(56,16)">
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(0)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(90)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(180)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(270)"/>
-      <circle cx="0" cy="0" r="3.8" fill="#2a2520"/>
-    </g>
-    <!-- Berries -->
-    <circle cx="102" cy="152" r="3.5" fill="#c8ddb8" opacity="0.85"/>
-    <circle cx="110" cy="147" r="2.8" fill="#b8cda8" opacity="0.78"/>
-    <circle cx="97"  cy="160" r="2.5" fill="#c8ddb8" opacity="0.72"/>
-  </svg>
+  <!-- Watercolor botanical frame -->
+  <svg class="hero-frame" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="0.55" result="b"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="7" result="n"/>
+        <feDisplacementMap in="b" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+      <filter id="wash" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="18"/>
+      </filter>
+      <!-- Eucalyptus leaf: round oval, tip up -->
+      <path id="eu-s" d="M0,2 C-6,-1 -7,-11 0,-17 C7,-11 6,-1 0,2"/>
+      <path id="eu-m" d="M0,3 C-8,-2 -9,-15 0,-23 C9,-15 8,-2 0,3"/>
+      <path id="eu-l" d="M0,3 C-10,-2 -11,-19 0,-29 C11,-19 10,-2 0,3"/>
+      <!-- Olive leaf: narrow, tip up -->
+      <path id="ol-s" d="M0,2 C-4,-1 -4,-13 0,-19 C4,-13 4,-1 0,2"/>
+      <path id="ol-m" d="M0,3 C-5,-2 -5,-17 0,-25 C5,-17 5,-2 0,3"/>
+      <path id="ol-l" d="M0,3 C-6,-2 -6,-21 0,-31 C6,-21 6,-2 0,3"/>
+    </defs>
 
-  <svg class="botanical botanical-tr" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
-    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
-    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
-    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.82"/>
-    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.78"/>
-    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.76"/>
-    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.72"/>
-    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.72"/>
-    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.68"/>
-  </svg>
+    <!-- Soft color washes -->
+    <ellipse cx="22" cy="350" rx="68" ry="335" fill="#7a9ea0" opacity="0.07" filter="url(#wash)"/>
+    <ellipse cx="478" cy="350" rx="68" ry="335" fill="#8a9a78" opacity="0.06" filter="url(#wash)"/>
+    <ellipse cx="250" cy="685" rx="230" ry="72" fill="#7a9ea0" opacity="0.07" filter="url(#wash)"/>
+    <ellipse cx="45"  cy="44"  rx="58" ry="52" fill="#8aaeaa" opacity="0.05" filter="url(#wash)"/>
+    <ellipse cx="455" cy="44"  rx="58" ry="52" fill="#9aaa86" opacity="0.05" filter="url(#wash)"/>
 
-  <svg class="botanical botanical-br" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280">
-    <path d="M-5,5 Q28,38 58,78 Q82,112 102,152" stroke="#6b8f52" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.8"/>
-    <path d="M6,-4 Q32,22 52,56 Q68,80 78,110" stroke="#7a9e60" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.7"/>
-    <path d="M48,-6 Q60,18 66,44" stroke="#8aaa6a" stroke-width="1.1" fill="none" stroke-linecap="round" opacity="0.62"/>
-    <path d="M58,78 Q36,64 32,40 Q52,58 58,78" fill="#8aaa6a" opacity="0.85"/>
-    <path d="M58,78 Q80,60 80,36 Q64,58 58,78" fill="#7a9a5a" opacity="0.8"/>
-    <path d="M82,112 Q60,99 56,74 Q74,92 82,112" fill="#9ab870" opacity="0.8"/>
-    <path d="M82,112 Q104,95 103,70 Q88,92 82,112" fill="#8aaa6a" opacity="0.75"/>
-    <path d="M52,56 Q32,46 28,24 Q46,38 52,56" fill="#8aaa6a" opacity="0.76"/>
-    <path d="M52,56 Q70,40 70,18 Q58,37 52,56" fill="#9ab870" opacity="0.7"/>
-    <path d="M66,44 Q50,35 49,15 Q62,27 66,44" fill="#7a9a5a" opacity="0.68"/>
-    <path d="M66,44 Q80,30 78,10 Q70,28 66,44" fill="#8aaa6a" opacity="0.62"/>
-    <g transform="translate(10,56)">
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(0)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(72)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f8d4df" transform="rotate(144)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#eebccc" transform="rotate(216)"/>
-      <ellipse cx="0" cy="-14" rx="7.5" ry="12" fill="#f5ccd8" transform="rotate(288)"/>
-      <circle cx="0" cy="0" r="5.5" fill="#2a2520"/>
+    <!-- ══ LEFT — EUCALYPTUS ══ -->
+    <path d="M22,698 C26,568 29,438 30,322 C31,206 30,118 27,52" stroke="#4a6a58" stroke-width="1.1" fill="none" opacity="0.60"/>
+
+    <!-- cluster ~y640 -->
+    <g filter="url(#wc)">
+      <path d="M25,644 C11,637 -1,628 -9,617" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
+      <path d="M15,636 C5,624 -1,609 -3,592"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
+      <use href="#eu-l" transform="translate(9,640) rotate(155)"  fill="#7a9ea0" opacity="0.60"/>
+      <use href="#eu-m" transform="translate(-3,633) rotate(140)" fill="#96b4b0" opacity="0.44"/>
+      <use href="#eu-l" transform="translate(1,622) rotate(165)"  fill="#5a8a8c" opacity="0.52"/>
+      <use href="#eu-m" transform="translate(-6,612) rotate(148)" fill="#7a9ea0" opacity="0.48"/>
+      <use href="#eu-s" transform="translate(5,628) rotate(133)"  fill="#8aaeaa" opacity="0.40"/>
+      <use href="#eu-l" transform="translate(6,614) rotate(158)"  fill="#6a9898" opacity="0.46"/>
+      <use href="#eu-m" transform="translate(-3,600) rotate(126)" fill="#96b4b0" opacity="0.38"/>
+      <use href="#eu-s" transform="translate(3,596) rotate(140)"  fill="#7a9ea0" opacity="0.36"/>
     </g>
-    <g transform="translate(56,16)">
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(0)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(90)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f8dce5" transform="rotate(180)"/>
-      <ellipse cx="0" cy="-10" rx="5" ry="9" fill="#f0d0dc" transform="rotate(270)"/>
-      <circle cx="0" cy="0" r="3.8" fill="#2a2520"/>
+
+    <!-- cluster ~y546 -->
+    <g filter="url(#wc)">
+      <path d="M27,548 C13,541 1,532 -7,521" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
+      <path d="M17,540 C7,528 1,513 -1,497"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
+      <use href="#eu-l" transform="translate(11,544) rotate(152)"  fill="#7a9ea0" opacity="0.58"/>
+      <use href="#eu-m" transform="translate(-1,538) rotate(137)"  fill="#5a8a8c" opacity="0.48"/>
+      <use href="#eu-l" transform="translate(3,528) rotate(162)"   fill="#96b4b0" opacity="0.50"/>
+      <use href="#eu-m" transform="translate(-4,518) rotate(146)"  fill="#7a9ea0" opacity="0.46"/>
+      <use href="#eu-s" transform="translate(5,514) rotate(130)"   fill="#8aaeaa" opacity="0.38"/>
+      <use href="#eu-m" transform="translate(1,502) rotate(120)"   fill="#6a9898" opacity="0.36"/>
     </g>
-    <circle cx="102" cy="152" r="3.5" fill="#c8ddb8" opacity="0.85"/>
-    <circle cx="110" cy="147" r="2.8" fill="#b8cda8" opacity="0.78"/>
-    <circle cx="97"  cy="160" r="2.5" fill="#c8ddb8" opacity="0.72"/>
+
+    <!-- cluster ~y452 -->
+    <g filter="url(#wc)">
+      <path d="M27,454 C13,447 1,438 -7,427" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.60"/>
+      <path d="M17,446 C7,434 1,419 -1,403"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.50"/>
+      <use href="#eu-l" transform="translate(11,450) rotate(150)"  fill="#8aaeaa" opacity="0.56"/>
+      <use href="#eu-m" transform="translate(-1,444) rotate(135)"  fill="#7a9ea0" opacity="0.46"/>
+      <use href="#eu-l" transform="translate(3,434) rotate(160)"   fill="#5a8a8c" opacity="0.48"/>
+      <use href="#eu-m" transform="translate(-4,424) rotate(143)"  fill="#96b4b0" opacity="0.43"/>
+      <use href="#eu-s" transform="translate(5,420) rotate(128)"   fill="#7a9ea0" opacity="0.36"/>
+      <use href="#eu-m" transform="translate(1,408) rotate(118)"   fill="#8aaeaa" opacity="0.34"/>
+    </g>
+
+    <!-- cluster ~y358 -->
+    <g filter="url(#wc)">
+      <path d="M28,360 C14,353 2,344 -6,333" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.58"/>
+      <path d="M18,352 C8,340 2,325 0,309"   stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.48"/>
+      <use href="#eu-l" transform="translate(12,356) rotate(148)"  fill="#7a9ea0" opacity="0.54"/>
+      <use href="#eu-m" transform="translate(0,350) rotate(133)"   fill="#5a8a8c" opacity="0.44"/>
+      <use href="#eu-l" transform="translate(4,340) rotate(158)"   fill="#96b4b0" opacity="0.46"/>
+      <use href="#eu-m" transform="translate(-3,330) rotate(141)"  fill="#7a9ea0" opacity="0.41"/>
+      <use href="#eu-s" transform="translate(4,318) rotate(126)"   fill="#8aaeaa" opacity="0.34"/>
+    </g>
+
+    <!-- cluster ~y264 -->
+    <g filter="url(#wc)">
+      <path d="M28,266 C16,259 4,250 -4,240" stroke="#4a6a58" stroke-width="0.80" fill="none" opacity="0.56"/>
+      <path d="M18,258 C10,247 4,233 2,218"  stroke="#4a6a58" stroke-width="0.70" fill="none" opacity="0.46"/>
+      <use href="#eu-m" transform="translate(12,262) rotate(146)"  fill="#8aaeaa" opacity="0.52"/>
+      <use href="#eu-m" transform="translate(0,256) rotate(131)"   fill="#7a9ea0" opacity="0.42"/>
+      <use href="#eu-l" transform="translate(4,246) rotate(156)"   fill="#5a8a8c" opacity="0.44"/>
+      <use href="#eu-m" transform="translate(-2,237) rotate(139)"  fill="#96b4b0" opacity="0.38"/>
+      <use href="#eu-s" transform="translate(4,226) rotate(124)"   fill="#7a9ea0" opacity="0.32"/>
+    </g>
+
+    <!-- cluster ~y170 -->
+    <g filter="url(#wc)">
+      <path d="M27,172 C17,165 7,157 1,148" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.54"/>
+      <use href="#eu-m" transform="translate(13,168) rotate(144)"  fill="#7a9ea0" opacity="0.48"/>
+      <use href="#eu-s" transform="translate(3,162) rotate(130)"   fill="#96b4b0" opacity="0.38"/>
+      <use href="#eu-m" transform="translate(1,152) rotate(154)"   fill="#8aaeaa" opacity="0.40"/>
+      <use href="#eu-s" transform="translate(-2,143) rotate(138)"  fill="#7a9ea0" opacity="0.34"/>
+    </g>
+
+    <!-- left berry clusters -->
+    <g transform="translate(6,596)" opacity="0.80">
+      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="-4" cy="-7" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="2"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
+    </g>
+    <g transform="translate(5,494)" opacity="0.74">
+      <circle cx="0"  cy="0"  r="4"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="6"  cy="-5" r="3.5" fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="-3" cy="-6" r="3"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="1"  cy="0"  r="1.5" fill="#c8ddc0" opacity="0.68"/>
+    </g>
+    <g transform="translate(5,388)" opacity="0.70">
+      <circle cx="0"  cy="0"  r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="5"  cy="-4" r="3"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="-3" cy="-5" r="2.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.35"/>
+      <circle cx="1"  cy="0"  r="1.4" fill="#c8ddc0" opacity="0.62"/>
+    </g>
+
+    <!-- ══ RIGHT — OLIVE ══ -->
+    <path d="M478,698 C474,568 471,438 470,322 C469,206 470,118 473,52" stroke="#4a6a58" stroke-width="1.1" fill="none" opacity="0.60"/>
+
+    <!-- cluster ~y640 -->
+    <g filter="url(#wc)">
+      <path d="M475,644 C489,637 501,628 509,617" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
+      <path d="M485,636 C495,624 501,609 503,592"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
+      <use href="#ol-l" transform="translate(491,640) rotate(25)"  fill="#8a9a78" opacity="0.60"/>
+      <use href="#ol-m" transform="translate(503,633) rotate(40)"  fill="#b4c4a0" opacity="0.44"/>
+      <use href="#ol-l" transform="translate(499,622) rotate(15)"  fill="#6a7a58" opacity="0.52"/>
+      <use href="#ol-m" transform="translate(506,612) rotate(32)"  fill="#8a9a78" opacity="0.48"/>
+      <use href="#ol-s" transform="translate(495,628) rotate(48)"  fill="#9aaa86" opacity="0.40"/>
+      <use href="#ol-l" transform="translate(494,614) rotate(22)"  fill="#7a8a68" opacity="0.46"/>
+      <use href="#ol-m" transform="translate(503,600) rotate(54)"  fill="#b4c4a0" opacity="0.38"/>
+      <use href="#ol-s" transform="translate(497,596) rotate(40)"  fill="#8a9a78" opacity="0.36"/>
+    </g>
+
+    <!-- cluster ~y546 -->
+    <g filter="url(#wc)">
+      <path d="M473,548 C487,541 499,532 507,521" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
+      <path d="M483,540 C493,528 499,513 501,497"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
+      <use href="#ol-l" transform="translate(489,544) rotate(27)"  fill="#8a9a78" opacity="0.58"/>
+      <use href="#ol-m" transform="translate(501,538) rotate(42)"  fill="#6a7a58" opacity="0.48"/>
+      <use href="#ol-l" transform="translate(497,528) rotate(17)"  fill="#b4c4a0" opacity="0.50"/>
+      <use href="#ol-m" transform="translate(504,518) rotate(34)"  fill="#8a9a78" opacity="0.46"/>
+      <use href="#ol-s" transform="translate(495,514) rotate(50)"  fill="#9aaa86" opacity="0.38"/>
+      <use href="#ol-m" transform="translate(499,502) rotate(60)"  fill="#7a8a68" opacity="0.36"/>
+    </g>
+
+    <!-- cluster ~y452 -->
+    <g filter="url(#wc)">
+      <path d="M473,454 C487,447 499,438 507,427" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.60"/>
+      <path d="M483,446 C493,434 499,419 501,403"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.50"/>
+      <use href="#ol-l" transform="translate(489,450) rotate(29)"  fill="#9aaa86" opacity="0.56"/>
+      <use href="#ol-m" transform="translate(501,444) rotate(44)"  fill="#8a9a78" opacity="0.46"/>
+      <use href="#ol-l" transform="translate(497,434) rotate(19)"  fill="#6a7a58" opacity="0.48"/>
+      <use href="#ol-m" transform="translate(504,424) rotate(36)"  fill="#b4c4a0" opacity="0.43"/>
+      <use href="#ol-s" transform="translate(495,420) rotate(52)"  fill="#8a9a78" opacity="0.36"/>
+      <use href="#ol-m" transform="translate(499,408) rotate(62)"  fill="#9aaa86" opacity="0.34"/>
+    </g>
+
+    <!-- cluster ~y358 -->
+    <g filter="url(#wc)">
+      <path d="M472,360 C486,353 498,344 506,333" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.58"/>
+      <path d="M482,352 C492,340 498,325 500,309"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.48"/>
+      <use href="#ol-l" transform="translate(488,356) rotate(31)"  fill="#8a9a78" opacity="0.54"/>
+      <use href="#ol-m" transform="translate(500,350) rotate(46)"  fill="#6a7a58" opacity="0.44"/>
+      <use href="#ol-l" transform="translate(496,340) rotate(21)"  fill="#b4c4a0" opacity="0.46"/>
+      <use href="#ol-m" transform="translate(503,330) rotate(38)"  fill="#8a9a78" opacity="0.41"/>
+      <use href="#ol-s" transform="translate(496,318) rotate(54)"  fill="#9aaa86" opacity="0.34"/>
+    </g>
+
+    <!-- cluster ~y264 -->
+    <g filter="url(#wc)">
+      <path d="M472,266 C484,259 496,250 504,240" stroke="#4a6a58" stroke-width="0.80" fill="none" opacity="0.56"/>
+      <path d="M482,258 C490,247 496,233 498,218"  stroke="#4a6a58" stroke-width="0.70" fill="none" opacity="0.46"/>
+      <use href="#ol-m" transform="translate(488,262) rotate(33)"  fill="#9aaa86" opacity="0.52"/>
+      <use href="#ol-m" transform="translate(500,256) rotate(48)"  fill="#8a9a78" opacity="0.42"/>
+      <use href="#ol-l" transform="translate(496,246) rotate(23)"  fill="#6a7a58" opacity="0.44"/>
+      <use href="#ol-m" transform="translate(502,237) rotate(40)"  fill="#b4c4a0" opacity="0.38"/>
+      <use href="#ol-s" transform="translate(496,226) rotate(56)"  fill="#8a9a78" opacity="0.32"/>
+    </g>
+
+    <!-- cluster ~y170 -->
+    <g filter="url(#wc)">
+      <path d="M473,172 C483,165 493,157 499,148" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.54"/>
+      <use href="#ol-m" transform="translate(487,168) rotate(35)"  fill="#8a9a78" opacity="0.48"/>
+      <use href="#ol-s" transform="translate(497,162) rotate(50)"  fill="#b4c4a0" opacity="0.38"/>
+      <use href="#ol-m" transform="translate(499,152) rotate(25)"  fill="#9aaa86" opacity="0.40"/>
+      <use href="#ol-s" transform="translate(502,143) rotate(42)"  fill="#8a9a78" opacity="0.34"/>
+    </g>
+
+    <!-- right berry clusters -->
+    <g transform="translate(494,596)" opacity="0.80">
+      <circle cx="0"   cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="-7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="4"   cy="-7" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="-2"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
+    </g>
+    <g transform="translate(495,494)" opacity="0.74">
+      <circle cx="0"   cy="0"  r="4"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="-6"  cy="-5" r="3.5" fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="3"   cy="-6" r="3"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="-1"  cy="0"  r="1.5" fill="#c8ddc0" opacity="0.68"/>
+    </g>
+    <g transform="translate(495,388)" opacity="0.70">
+      <circle cx="0"   cy="0"  r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="-5"  cy="-4" r="3"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="3"   cy="-5" r="2.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.35"/>
+      <circle cx="-1"  cy="0"  r="1.4" fill="#c8ddc0" opacity="0.62"/>
+    </g>
+
+    <!-- ══ TOP CORNERS ══ -->
+    <g filter="url(#wc)">
+      <path d="M29,54 C41,39 55,27 72,17" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.52"/>
+      <path d="M29,54 C19,41 11,29 7,15"  stroke="#4a6a58" stroke-width="0.68" fill="none" opacity="0.46"/>
+      <use href="#eu-s" transform="translate(42,43) rotate(210)"   fill="#7a9ea0" opacity="0.46"/>
+      <use href="#eu-m" transform="translate(55,33) rotate(228)"   fill="#8aaeaa" opacity="0.38"/>
+      <use href="#ol-s" transform="translate(68,21) rotate(242)"   fill="#9aaa86" opacity="0.34"/>
+      <use href="#eu-s" transform="translate(21,43) rotate(190)"   fill="#96b4b0" opacity="0.40"/>
+      <use href="#ol-s" transform="translate(13,27) rotate(175)"   fill="#8a9a78" opacity="0.33"/>
+    </g>
+    <g filter="url(#wc)">
+      <path d="M471,54 C459,39 445,27 428,17" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.52"/>
+      <path d="M471,54 C481,41 489,29 493,15"  stroke="#4a6a58" stroke-width="0.68" fill="none" opacity="0.46"/>
+      <use href="#eu-s" transform="translate(458,43) rotate(-30)"  fill="#7a9ea0" opacity="0.46"/>
+      <use href="#eu-m" transform="translate(445,33) rotate(-48)"  fill="#8aaeaa" opacity="0.38"/>
+      <use href="#ol-s" transform="translate(432,21) rotate(-62)"  fill="#9aaa86" opacity="0.34"/>
+      <use href="#eu-s" transform="translate(479,43) rotate(-10)"  fill="#96b4b0" opacity="0.40"/>
+      <use href="#ol-s" transform="translate(487,27) rotate(5)"    fill="#8a9a78" opacity="0.33"/>
+    </g>
+
+    <!-- ══ BOTTOM — DENSE ══ -->
+    <path d="M28,694 C90,688 160,684 250,682 C340,684 410,688 472,694" stroke="#4a6a58" stroke-width="0.9" fill="none" opacity="0.52"/>
+    <!-- back layer -->
+    <g filter="url(#wc)">
+      <use href="#eu-l" transform="translate(52,700) rotate(200)"  fill="#5a8a8c" opacity="0.58"/>
+      <use href="#ol-l" transform="translate(104,698) rotate(212)" fill="#6a7a58" opacity="0.56"/>
+      <use href="#eu-l" transform="translate(158,696) rotate(222)" fill="#5a8a8c" opacity="0.58"/>
+      <use href="#ol-l" transform="translate(212,694) rotate(232)" fill="#6a7a58" opacity="0.56"/>
+      <use href="#eu-l" transform="translate(250,693) rotate(238)" fill="#5a8a8c" opacity="0.58"/>
+      <use href="#ol-l" transform="translate(288,694) rotate(228)" fill="#6a7a58" opacity="0.56"/>
+      <use href="#eu-l" transform="translate(342,696) rotate(218)" fill="#5a8a8c" opacity="0.58"/>
+      <use href="#ol-l" transform="translate(396,698) rotate(208)" fill="#6a7a58" opacity="0.56"/>
+      <use href="#eu-l" transform="translate(448,700) rotate(198)" fill="#5a8a8c" opacity="0.58"/>
+    </g>
+    <!-- mid layer -->
+    <g filter="url(#wc)">
+      <use href="#eu-m" transform="translate(74,700) rotate(204)"  fill="#7a9ea0" opacity="0.60"/>
+      <use href="#ol-m" transform="translate(124,699) rotate(215)" fill="#8a9a78" opacity="0.58"/>
+      <use href="#eu-l" transform="translate(176,698) rotate(224)" fill="#8aaeaa" opacity="0.56"/>
+      <use href="#ol-l" transform="translate(228,697) rotate(233)" fill="#9aaa86" opacity="0.54"/>
+      <use href="#eu-l" transform="translate(250,697) rotate(238)" fill="#7a9ea0" opacity="0.56"/>
+      <use href="#ol-l" transform="translate(272,697) rotate(233)" fill="#9aaa86" opacity="0.54"/>
+      <use href="#eu-l" transform="translate(324,698) rotate(224)" fill="#8aaeaa" opacity="0.56"/>
+      <use href="#ol-m" transform="translate(376,699) rotate(215)" fill="#8a9a78" opacity="0.58"/>
+      <use href="#eu-m" transform="translate(426,700) rotate(204)" fill="#7a9ea0" opacity="0.60"/>
+    </g>
+    <!-- front layer -->
+    <g filter="url(#wc)">
+      <use href="#eu-m" transform="translate(90,700) rotate(206)"  fill="#96b4b0" opacity="0.52"/>
+      <use href="#ol-s" transform="translate(136,700) rotate(218)" fill="#b4c4a0" opacity="0.50"/>
+      <use href="#eu-m" transform="translate(186,700) rotate(226)" fill="#8aaeaa" opacity="0.52"/>
+      <use href="#ol-m" transform="translate(238,700) rotate(234)" fill="#9aaa86" opacity="0.50"/>
+      <use href="#eu-m" transform="translate(262,700) rotate(232)" fill="#8aaeaa" opacity="0.52"/>
+      <use href="#ol-m" transform="translate(312,700) rotate(224)" fill="#9aaa86" opacity="0.50"/>
+      <use href="#eu-m" transform="translate(364,700) rotate(216)" fill="#8aaeaa" opacity="0.52"/>
+      <use href="#ol-s" transform="translate(414,700) rotate(208)" fill="#b4c4a0" opacity="0.50"/>
+      <use href="#eu-m" transform="translate(460,700) rotate(200)" fill="#96b4b0" opacity="0.52"/>
+    </g>
+    <!-- bottom berries -->
+    <g transform="translate(118,690)" opacity="0.84">
+      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="-5" cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
+    </g>
+    <g transform="translate(250,683)" opacity="0.82">
+      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="-5" cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
+    </g>
+    <g transform="translate(382,690)" opacity="0.84">
+      <circle cx="0"   cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
+      <circle cx="-7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
+      <circle cx="5"   cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
+      <circle cx="-1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
+    </g>
   </svg>
 
   <!-- Content -->
