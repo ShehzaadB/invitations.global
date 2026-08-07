@@ -55,6 +55,8 @@
       min-height: 100svh;
       width: 100%;
       max-width: none;
+      margin: 0;
+      background: #F8F5EF;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
@@ -63,90 +65,152 @@
       overflow: hidden;
     }
 
-    /* Watercolor blob overlays */
+    /* Ambient color depth */
     #hero::before {
       content: '';
       position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 60% 52% at 0% 0%,    rgba(122,158,160,0.10) 0%, transparent 62%),
-        radial-gradient(ellipse 55% 48% at 100% 0%,  rgba(122,158,160,0.08) 0%, transparent 58%),
-        radial-gradient(ellipse 50% 46% at 100% 100%,rgba(138,154,120,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 55% 50% at 0% 100%,  rgba(138,154,120,0.08) 0%, transparent 58%),
-        radial-gradient(circle at 50% 50%, rgba(253,249,242,0.0) 0%, transparent 70%);
+        radial-gradient(ellipse 55% 42% at 4% 4%,   rgba(120,152,120,0.055) 0%, transparent 68%),
+        radial-gradient(ellipse 50% 40% at 96% 4%,  rgba(120,152,120,0.045) 0%, transparent 65%),
+        radial-gradient(ellipse 65% 32% at 50% 100%,rgba(100,122,90,0.065) 0%, transparent 58%),
+        radial-gradient(ellipse 28% 28% at 4% 96%,  rgba(115,138,105,0.05) 0%, transparent 62%),
+        radial-gradient(ellipse 28% 28% at 96% 96%, rgba(115,138,105,0.05) 0%, transparent 62%);
       pointer-events: none;
+      z-index: 1;
     }
 
-    /* Watercolor botanical frame */
-    .hero-frame {
+    /* Paper grain texture */
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+      mix-blend-mode: multiply;
+    }
+
+    /* Canvas botanical frame */
+    .hero-canvas {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
+      will-change: transform;
     }
+
+    /* Gold border frame */
+    .hero-border-frame {
+      position: absolute;
+      inset: clamp(14px, 2.5vw, 26px);
+      z-index: 4;
+      pointer-events: none;
+      border: 1px solid rgba(200,169,106,0.20);
+    }
+
+    /* Gold corner ornaments */
+    .hc { position: absolute; width: 20px; height: 20px; }
+    .hc::before, .hc::after {
+      content: '';
+      position: absolute;
+      background: rgba(200,169,106,0.65);
+    }
+    .hc-tl { top: -1px; left: -1px; }
+    .hc-tl::before { top: 0; left: 0; width: 20px; height: 1px; }
+    .hc-tl::after  { top: 0; left: 0; width: 1px;  height: 20px; }
+    .hc-tr { top: -1px; right: -1px; }
+    .hc-tr::before { top: 0; right: 0; width: 20px; height: 1px; }
+    .hc-tr::after  { top: 0; right: 0; width: 1px;  height: 20px; }
+    .hc-bl { bottom: -1px; left: -1px; }
+    .hc-bl::before { bottom: 0; left: 0; width: 20px; height: 1px; }
+    .hc-bl::after  { bottom: 0; left: 0; width: 1px;  height: 20px; }
+    .hc-br { bottom: -1px; right: -1px; }
+    .hc-br::before { bottom: 0; right: 0; width: 20px; height: 1px; }
+    .hc-br::after  { bottom: 0; right: 0; width: 1px;  height: 20px; }
+
     .hero-inner {
       position: relative;
-      z-index: 2;
+      z-index: 5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 clamp(60px, 15vw, 110px);
+      padding: 0 clamp(72px, 17vw, 130px);
       width: 100%;
+      max-width: 860px;
     }
 
     .bismillah-hero {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-size: clamp(0.9rem, 1.9vw, 1.08rem);
       color: var(--gold);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      margin-bottom: 2.5rem;
+      letter-spacing: 0.18em;
+      margin-bottom: 2rem;
       opacity: 0;
       animation: fadeUp 1s ease 0.5s forwards;
     }
 
+    .hero-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.68rem);
+      font-weight: 400;
+      letter-spacing: 0.48em;
+      text-transform: uppercase;
+      color: #8a7d6e;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.72s forwards;
+    }
+
     .divider {
       display: flex; align-items: center; gap: 1rem;
-      margin: 1.2rem auto;
-      max-width: 320px;
+      margin: 0.6rem auto 1.4rem;
+      max-width: 260px;
       width: 100%;
       opacity: 0;
-      animation: fadeUp 1s ease 0.7s forwards;
+      animation: fadeUp 1s ease 0.82s forwards;
     }
-    .divider-line { flex: 1; height: 1px; background: var(--gold-light); }
+    .divider-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,169,106,0.5), transparent);
+    }
     .divider-diamond {
-      width: 6px; height: 6px;
-      background: var(--gold);
+      width: 5px; height: 5px;
+      background: rgba(200,169,106,0.72);
       transform: rotate(45deg);
+      flex-shrink: 0;
     }
 
     .hero-names {
       font-family: 'Great Vibes', cursive;
-      font-size: clamp(4rem, 13vw, 8.5rem);
+      font-size: clamp(3.8rem, 12vw, 8.2rem);
       font-weight: 400;
-      line-height: 1.1;
-      color: var(--dark);
+      line-height: 1.12;
+      padding-top: 0.35em;   /* room for the S swash above the cap-height */
+      margin-top: -0.25em;   /* pull back so spacing looks unchanged */
+      background: linear-gradient(155deg,
+        #7a5c28 0%, #c9a96e 20%, #edd9a8 42%,
+        #f4e8c6 50%, #edd9a8 58%, #c9a96e 80%, #7a5c28 100%
+      );
+      background-size: 230% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       opacity: 0;
-      animation: fadeUp 1s ease 0.9s forwards;
+      animation: fadeUp 1s ease 0.96s both, goldShimmer 8s ease-in-out 2.8s infinite;
     }
     .hero-names .amp {
       font-family: 'Great Vibes', cursive;
-      color: var(--gold);
-      font-size: 0.7em;
+      font-size: 0.65em;
       vertical-align: middle;
-      margin: 0 0.1em;
+      margin: 0 0.06em;
     }
 
-    .hero-sub {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      color: var(--mid);
-      letter-spacing: 0.12em;
-      margin-top: 1rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 1.1s forwards;
+    @keyframes goldShimmer {
+      from { background-position: 0% center; }
+      to   { background-position: 230% center; }
     }
 
     .scroll-cta {
@@ -487,304 +551,30 @@
 <!-- ── HERO ── -->
 <section id="hero">
 
-  <!-- Watercolor botanical frame -->
-  <svg class="hero-frame" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 700" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="0.55" result="b"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="7" result="n"/>
-        <feDisplacementMap in="b" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
-      </filter>
-      <filter id="wash" x="-60%" y="-60%" width="220%" height="220%">
-        <feGaussianBlur stdDeviation="18"/>
-      </filter>
-      <!-- Eucalyptus leaf: round oval, tip up -->
-      <path id="eu-s" d="M0,2 C-6,-1 -7,-11 0,-17 C7,-11 6,-1 0,2"/>
-      <path id="eu-m" d="M0,3 C-8,-2 -9,-15 0,-23 C9,-15 8,-2 0,3"/>
-      <path id="eu-l" d="M0,3 C-10,-2 -11,-19 0,-29 C11,-19 10,-2 0,3"/>
-      <!-- Olive leaf: narrow, tip up -->
-      <path id="ol-s" d="M0,2 C-4,-1 -4,-13 0,-19 C4,-13 4,-1 0,2"/>
-      <path id="ol-m" d="M0,3 C-5,-2 -5,-17 0,-25 C5,-17 5,-2 0,3"/>
-      <path id="ol-l" d="M0,3 C-6,-2 -6,-21 0,-31 C6,-21 6,-2 0,3"/>
-    </defs>
+  <!-- Canvas botanical frame -->
+  <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
 
-    <!-- Soft color washes -->
-    <ellipse cx="22" cy="350" rx="68" ry="335" fill="#7a9ea0" opacity="0.07" filter="url(#wash)"/>
-    <ellipse cx="478" cy="350" rx="68" ry="335" fill="#8a9a78" opacity="0.06" filter="url(#wash)"/>
-    <ellipse cx="250" cy="685" rx="230" ry="72" fill="#7a9ea0" opacity="0.07" filter="url(#wash)"/>
-    <ellipse cx="45"  cy="44"  rx="58" ry="52" fill="#8aaeaa" opacity="0.05" filter="url(#wash)"/>
-    <ellipse cx="455" cy="44"  rx="58" ry="52" fill="#9aaa86" opacity="0.05" filter="url(#wash)"/>
-
-    <!-- ══ LEFT — EUCALYPTUS ══ -->
-    <path d="M22,698 C26,568 29,438 30,322 C31,206 30,118 27,52" stroke="#4a6a58" stroke-width="1.1" fill="none" opacity="0.60"/>
-
-    <!-- cluster ~y640 -->
-    <g filter="url(#wc)">
-      <path d="M25,644 C11,637 -1,628 -9,617" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
-      <path d="M15,636 C5,624 -1,609 -3,592"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
-      <use href="#eu-l" transform="translate(9,640) rotate(155)"  fill="#7a9ea0" opacity="0.60"/>
-      <use href="#eu-m" transform="translate(-3,633) rotate(140)" fill="#96b4b0" opacity="0.44"/>
-      <use href="#eu-l" transform="translate(1,622) rotate(165)"  fill="#5a8a8c" opacity="0.52"/>
-      <use href="#eu-m" transform="translate(-6,612) rotate(148)" fill="#7a9ea0" opacity="0.48"/>
-      <use href="#eu-s" transform="translate(5,628) rotate(133)"  fill="#8aaeaa" opacity="0.40"/>
-      <use href="#eu-l" transform="translate(6,614) rotate(158)"  fill="#6a9898" opacity="0.46"/>
-      <use href="#eu-m" transform="translate(-3,600) rotate(126)" fill="#96b4b0" opacity="0.38"/>
-      <use href="#eu-s" transform="translate(3,596) rotate(140)"  fill="#7a9ea0" opacity="0.36"/>
-    </g>
-
-    <!-- cluster ~y546 -->
-    <g filter="url(#wc)">
-      <path d="M27,548 C13,541 1,532 -7,521" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
-      <path d="M17,540 C7,528 1,513 -1,497"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
-      <use href="#eu-l" transform="translate(11,544) rotate(152)"  fill="#7a9ea0" opacity="0.58"/>
-      <use href="#eu-m" transform="translate(-1,538) rotate(137)"  fill="#5a8a8c" opacity="0.48"/>
-      <use href="#eu-l" transform="translate(3,528) rotate(162)"   fill="#96b4b0" opacity="0.50"/>
-      <use href="#eu-m" transform="translate(-4,518) rotate(146)"  fill="#7a9ea0" opacity="0.46"/>
-      <use href="#eu-s" transform="translate(5,514) rotate(130)"   fill="#8aaeaa" opacity="0.38"/>
-      <use href="#eu-m" transform="translate(1,502) rotate(120)"   fill="#6a9898" opacity="0.36"/>
-    </g>
-
-    <!-- cluster ~y452 -->
-    <g filter="url(#wc)">
-      <path d="M27,454 C13,447 1,438 -7,427" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.60"/>
-      <path d="M17,446 C7,434 1,419 -1,403"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.50"/>
-      <use href="#eu-l" transform="translate(11,450) rotate(150)"  fill="#8aaeaa" opacity="0.56"/>
-      <use href="#eu-m" transform="translate(-1,444) rotate(135)"  fill="#7a9ea0" opacity="0.46"/>
-      <use href="#eu-l" transform="translate(3,434) rotate(160)"   fill="#5a8a8c" opacity="0.48"/>
-      <use href="#eu-m" transform="translate(-4,424) rotate(143)"  fill="#96b4b0" opacity="0.43"/>
-      <use href="#eu-s" transform="translate(5,420) rotate(128)"   fill="#7a9ea0" opacity="0.36"/>
-      <use href="#eu-m" transform="translate(1,408) rotate(118)"   fill="#8aaeaa" opacity="0.34"/>
-    </g>
-
-    <!-- cluster ~y358 -->
-    <g filter="url(#wc)">
-      <path d="M28,360 C14,353 2,344 -6,333" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.58"/>
-      <path d="M18,352 C8,340 2,325 0,309"   stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.48"/>
-      <use href="#eu-l" transform="translate(12,356) rotate(148)"  fill="#7a9ea0" opacity="0.54"/>
-      <use href="#eu-m" transform="translate(0,350) rotate(133)"   fill="#5a8a8c" opacity="0.44"/>
-      <use href="#eu-l" transform="translate(4,340) rotate(158)"   fill="#96b4b0" opacity="0.46"/>
-      <use href="#eu-m" transform="translate(-3,330) rotate(141)"  fill="#7a9ea0" opacity="0.41"/>
-      <use href="#eu-s" transform="translate(4,318) rotate(126)"   fill="#8aaeaa" opacity="0.34"/>
-    </g>
-
-    <!-- cluster ~y264 -->
-    <g filter="url(#wc)">
-      <path d="M28,266 C16,259 4,250 -4,240" stroke="#4a6a58" stroke-width="0.80" fill="none" opacity="0.56"/>
-      <path d="M18,258 C10,247 4,233 2,218"  stroke="#4a6a58" stroke-width="0.70" fill="none" opacity="0.46"/>
-      <use href="#eu-m" transform="translate(12,262) rotate(146)"  fill="#8aaeaa" opacity="0.52"/>
-      <use href="#eu-m" transform="translate(0,256) rotate(131)"   fill="#7a9ea0" opacity="0.42"/>
-      <use href="#eu-l" transform="translate(4,246) rotate(156)"   fill="#5a8a8c" opacity="0.44"/>
-      <use href="#eu-m" transform="translate(-2,237) rotate(139)"  fill="#96b4b0" opacity="0.38"/>
-      <use href="#eu-s" transform="translate(4,226) rotate(124)"   fill="#7a9ea0" opacity="0.32"/>
-    </g>
-
-    <!-- cluster ~y170 -->
-    <g filter="url(#wc)">
-      <path d="M27,172 C17,165 7,157 1,148" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.54"/>
-      <use href="#eu-m" transform="translate(13,168) rotate(144)"  fill="#7a9ea0" opacity="0.48"/>
-      <use href="#eu-s" transform="translate(3,162) rotate(130)"   fill="#96b4b0" opacity="0.38"/>
-      <use href="#eu-m" transform="translate(1,152) rotate(154)"   fill="#8aaeaa" opacity="0.40"/>
-      <use href="#eu-s" transform="translate(-2,143) rotate(138)"  fill="#7a9ea0" opacity="0.34"/>
-    </g>
-
-    <!-- left berry clusters -->
-    <g transform="translate(6,596)" opacity="0.80">
-      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="-4" cy="-7" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="2"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
-    </g>
-    <g transform="translate(5,494)" opacity="0.74">
-      <circle cx="0"  cy="0"  r="4"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="6"  cy="-5" r="3.5" fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="-3" cy="-6" r="3"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="1"  cy="0"  r="1.5" fill="#c8ddc0" opacity="0.68"/>
-    </g>
-    <g transform="translate(5,388)" opacity="0.70">
-      <circle cx="0"  cy="0"  r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="5"  cy="-4" r="3"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="-3" cy="-5" r="2.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.35"/>
-      <circle cx="1"  cy="0"  r="1.4" fill="#c8ddc0" opacity="0.62"/>
-    </g>
-
-    <!-- ══ RIGHT — OLIVE ══ -->
-    <path d="M478,698 C474,568 471,438 470,322 C469,206 470,118 473,52" stroke="#4a6a58" stroke-width="1.1" fill="none" opacity="0.60"/>
-
-    <!-- cluster ~y640 -->
-    <g filter="url(#wc)">
-      <path d="M475,644 C489,637 501,628 509,617" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
-      <path d="M485,636 C495,624 501,609 503,592"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
-      <use href="#ol-l" transform="translate(491,640) rotate(25)"  fill="#8a9a78" opacity="0.60"/>
-      <use href="#ol-m" transform="translate(503,633) rotate(40)"  fill="#b4c4a0" opacity="0.44"/>
-      <use href="#ol-l" transform="translate(499,622) rotate(15)"  fill="#6a7a58" opacity="0.52"/>
-      <use href="#ol-m" transform="translate(506,612) rotate(32)"  fill="#8a9a78" opacity="0.48"/>
-      <use href="#ol-s" transform="translate(495,628) rotate(48)"  fill="#9aaa86" opacity="0.40"/>
-      <use href="#ol-l" transform="translate(494,614) rotate(22)"  fill="#7a8a68" opacity="0.46"/>
-      <use href="#ol-m" transform="translate(503,600) rotate(54)"  fill="#b4c4a0" opacity="0.38"/>
-      <use href="#ol-s" transform="translate(497,596) rotate(40)"  fill="#8a9a78" opacity="0.36"/>
-    </g>
-
-    <!-- cluster ~y546 -->
-    <g filter="url(#wc)">
-      <path d="M473,548 C487,541 499,532 507,521" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.62"/>
-      <path d="M483,540 C493,528 499,513 501,497"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.52"/>
-      <use href="#ol-l" transform="translate(489,544) rotate(27)"  fill="#8a9a78" opacity="0.58"/>
-      <use href="#ol-m" transform="translate(501,538) rotate(42)"  fill="#6a7a58" opacity="0.48"/>
-      <use href="#ol-l" transform="translate(497,528) rotate(17)"  fill="#b4c4a0" opacity="0.50"/>
-      <use href="#ol-m" transform="translate(504,518) rotate(34)"  fill="#8a9a78" opacity="0.46"/>
-      <use href="#ol-s" transform="translate(495,514) rotate(50)"  fill="#9aaa86" opacity="0.38"/>
-      <use href="#ol-m" transform="translate(499,502) rotate(60)"  fill="#7a8a68" opacity="0.36"/>
-    </g>
-
-    <!-- cluster ~y452 -->
-    <g filter="url(#wc)">
-      <path d="M473,454 C487,447 499,438 507,427" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.60"/>
-      <path d="M483,446 C493,434 499,419 501,403"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.50"/>
-      <use href="#ol-l" transform="translate(489,450) rotate(29)"  fill="#9aaa86" opacity="0.56"/>
-      <use href="#ol-m" transform="translate(501,444) rotate(44)"  fill="#8a9a78" opacity="0.46"/>
-      <use href="#ol-l" transform="translate(497,434) rotate(19)"  fill="#6a7a58" opacity="0.48"/>
-      <use href="#ol-m" transform="translate(504,424) rotate(36)"  fill="#b4c4a0" opacity="0.43"/>
-      <use href="#ol-s" transform="translate(495,420) rotate(52)"  fill="#8a9a78" opacity="0.36"/>
-      <use href="#ol-m" transform="translate(499,408) rotate(62)"  fill="#9aaa86" opacity="0.34"/>
-    </g>
-
-    <!-- cluster ~y358 -->
-    <g filter="url(#wc)">
-      <path d="M472,360 C486,353 498,344 506,333" stroke="#4a6a58" stroke-width="0.85" fill="none" opacity="0.58"/>
-      <path d="M482,352 C492,340 498,325 500,309"  stroke="#4a6a58" stroke-width="0.75" fill="none" opacity="0.48"/>
-      <use href="#ol-l" transform="translate(488,356) rotate(31)"  fill="#8a9a78" opacity="0.54"/>
-      <use href="#ol-m" transform="translate(500,350) rotate(46)"  fill="#6a7a58" opacity="0.44"/>
-      <use href="#ol-l" transform="translate(496,340) rotate(21)"  fill="#b4c4a0" opacity="0.46"/>
-      <use href="#ol-m" transform="translate(503,330) rotate(38)"  fill="#8a9a78" opacity="0.41"/>
-      <use href="#ol-s" transform="translate(496,318) rotate(54)"  fill="#9aaa86" opacity="0.34"/>
-    </g>
-
-    <!-- cluster ~y264 -->
-    <g filter="url(#wc)">
-      <path d="M472,266 C484,259 496,250 504,240" stroke="#4a6a58" stroke-width="0.80" fill="none" opacity="0.56"/>
-      <path d="M482,258 C490,247 496,233 498,218"  stroke="#4a6a58" stroke-width="0.70" fill="none" opacity="0.46"/>
-      <use href="#ol-m" transform="translate(488,262) rotate(33)"  fill="#9aaa86" opacity="0.52"/>
-      <use href="#ol-m" transform="translate(500,256) rotate(48)"  fill="#8a9a78" opacity="0.42"/>
-      <use href="#ol-l" transform="translate(496,246) rotate(23)"  fill="#6a7a58" opacity="0.44"/>
-      <use href="#ol-m" transform="translate(502,237) rotate(40)"  fill="#b4c4a0" opacity="0.38"/>
-      <use href="#ol-s" transform="translate(496,226) rotate(56)"  fill="#8a9a78" opacity="0.32"/>
-    </g>
-
-    <!-- cluster ~y170 -->
-    <g filter="url(#wc)">
-      <path d="M473,172 C483,165 493,157 499,148" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.54"/>
-      <use href="#ol-m" transform="translate(487,168) rotate(35)"  fill="#8a9a78" opacity="0.48"/>
-      <use href="#ol-s" transform="translate(497,162) rotate(50)"  fill="#b4c4a0" opacity="0.38"/>
-      <use href="#ol-m" transform="translate(499,152) rotate(25)"  fill="#9aaa86" opacity="0.40"/>
-      <use href="#ol-s" transform="translate(502,143) rotate(42)"  fill="#8a9a78" opacity="0.34"/>
-    </g>
-
-    <!-- right berry clusters -->
-    <g transform="translate(494,596)" opacity="0.80">
-      <circle cx="0"   cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="-7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="4"   cy="-7" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="-2"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
-    </g>
-    <g transform="translate(495,494)" opacity="0.74">
-      <circle cx="0"   cy="0"  r="4"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="-6"  cy="-5" r="3.5" fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="3"   cy="-6" r="3"   fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="-1"  cy="0"  r="1.5" fill="#c8ddc0" opacity="0.68"/>
-    </g>
-    <g transform="translate(495,388)" opacity="0.70">
-      <circle cx="0"   cy="0"  r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="-5"  cy="-4" r="3"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="3"   cy="-5" r="2.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.35"/>
-      <circle cx="-1"  cy="0"  r="1.4" fill="#c8ddc0" opacity="0.62"/>
-    </g>
-
-    <!-- ══ TOP CORNERS ══ -->
-    <g filter="url(#wc)">
-      <path d="M29,54 C41,39 55,27 72,17" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.52"/>
-      <path d="M29,54 C19,41 11,29 7,15"  stroke="#4a6a58" stroke-width="0.68" fill="none" opacity="0.46"/>
-      <use href="#eu-s" transform="translate(42,43) rotate(210)"   fill="#7a9ea0" opacity="0.46"/>
-      <use href="#eu-m" transform="translate(55,33) rotate(228)"   fill="#8aaeaa" opacity="0.38"/>
-      <use href="#ol-s" transform="translate(68,21) rotate(242)"   fill="#9aaa86" opacity="0.34"/>
-      <use href="#eu-s" transform="translate(21,43) rotate(190)"   fill="#96b4b0" opacity="0.40"/>
-      <use href="#ol-s" transform="translate(13,27) rotate(175)"   fill="#8a9a78" opacity="0.33"/>
-    </g>
-    <g filter="url(#wc)">
-      <path d="M471,54 C459,39 445,27 428,17" stroke="#4a6a58" stroke-width="0.78" fill="none" opacity="0.52"/>
-      <path d="M471,54 C481,41 489,29 493,15"  stroke="#4a6a58" stroke-width="0.68" fill="none" opacity="0.46"/>
-      <use href="#eu-s" transform="translate(458,43) rotate(-30)"  fill="#7a9ea0" opacity="0.46"/>
-      <use href="#eu-m" transform="translate(445,33) rotate(-48)"  fill="#8aaeaa" opacity="0.38"/>
-      <use href="#ol-s" transform="translate(432,21) rotate(-62)"  fill="#9aaa86" opacity="0.34"/>
-      <use href="#eu-s" transform="translate(479,43) rotate(-10)"  fill="#96b4b0" opacity="0.40"/>
-      <use href="#ol-s" transform="translate(487,27) rotate(5)"    fill="#8a9a78" opacity="0.33"/>
-    </g>
-
-    <!-- ══ BOTTOM — DENSE ══ -->
-    <path d="M28,694 C90,688 160,684 250,682 C340,684 410,688 472,694" stroke="#4a6a58" stroke-width="0.9" fill="none" opacity="0.52"/>
-    <!-- back layer -->
-    <g filter="url(#wc)">
-      <use href="#eu-l" transform="translate(52,700) rotate(200)"  fill="#5a8a8c" opacity="0.58"/>
-      <use href="#ol-l" transform="translate(104,698) rotate(212)" fill="#6a7a58" opacity="0.56"/>
-      <use href="#eu-l" transform="translate(158,696) rotate(222)" fill="#5a8a8c" opacity="0.58"/>
-      <use href="#ol-l" transform="translate(212,694) rotate(232)" fill="#6a7a58" opacity="0.56"/>
-      <use href="#eu-l" transform="translate(250,693) rotate(238)" fill="#5a8a8c" opacity="0.58"/>
-      <use href="#ol-l" transform="translate(288,694) rotate(228)" fill="#6a7a58" opacity="0.56"/>
-      <use href="#eu-l" transform="translate(342,696) rotate(218)" fill="#5a8a8c" opacity="0.58"/>
-      <use href="#ol-l" transform="translate(396,698) rotate(208)" fill="#6a7a58" opacity="0.56"/>
-      <use href="#eu-l" transform="translate(448,700) rotate(198)" fill="#5a8a8c" opacity="0.58"/>
-    </g>
-    <!-- mid layer -->
-    <g filter="url(#wc)">
-      <use href="#eu-m" transform="translate(74,700) rotate(204)"  fill="#7a9ea0" opacity="0.60"/>
-      <use href="#ol-m" transform="translate(124,699) rotate(215)" fill="#8a9a78" opacity="0.58"/>
-      <use href="#eu-l" transform="translate(176,698) rotate(224)" fill="#8aaeaa" opacity="0.56"/>
-      <use href="#ol-l" transform="translate(228,697) rotate(233)" fill="#9aaa86" opacity="0.54"/>
-      <use href="#eu-l" transform="translate(250,697) rotate(238)" fill="#7a9ea0" opacity="0.56"/>
-      <use href="#ol-l" transform="translate(272,697) rotate(233)" fill="#9aaa86" opacity="0.54"/>
-      <use href="#eu-l" transform="translate(324,698) rotate(224)" fill="#8aaeaa" opacity="0.56"/>
-      <use href="#ol-m" transform="translate(376,699) rotate(215)" fill="#8a9a78" opacity="0.58"/>
-      <use href="#eu-m" transform="translate(426,700) rotate(204)" fill="#7a9ea0" opacity="0.60"/>
-    </g>
-    <!-- front layer -->
-    <g filter="url(#wc)">
-      <use href="#eu-m" transform="translate(90,700) rotate(206)"  fill="#96b4b0" opacity="0.52"/>
-      <use href="#ol-s" transform="translate(136,700) rotate(218)" fill="#b4c4a0" opacity="0.50"/>
-      <use href="#eu-m" transform="translate(186,700) rotate(226)" fill="#8aaeaa" opacity="0.52"/>
-      <use href="#ol-m" transform="translate(238,700) rotate(234)" fill="#9aaa86" opacity="0.50"/>
-      <use href="#eu-m" transform="translate(262,700) rotate(232)" fill="#8aaeaa" opacity="0.52"/>
-      <use href="#ol-m" transform="translate(312,700) rotate(224)" fill="#9aaa86" opacity="0.50"/>
-      <use href="#eu-m" transform="translate(364,700) rotate(216)" fill="#8aaeaa" opacity="0.52"/>
-      <use href="#ol-s" transform="translate(414,700) rotate(208)" fill="#b4c4a0" opacity="0.50"/>
-      <use href="#eu-m" transform="translate(460,700) rotate(200)" fill="#96b4b0" opacity="0.52"/>
-    </g>
-    <!-- bottom berries -->
-    <g transform="translate(118,690)" opacity="0.84">
-      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="-5" cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
-    </g>
-    <g transform="translate(250,683)" opacity="0.82">
-      <circle cx="0"  cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="-5" cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
-    </g>
-    <g transform="translate(382,690)" opacity="0.84">
-      <circle cx="0"   cy="0"  r="4.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.5"/>
-      <circle cx="-7"  cy="-5" r="4"   fill="#f5f0e5" stroke="#ccc4b0" stroke-width="0.45"/>
-      <circle cx="5"   cy="-6" r="3.5" fill="#faf5ec" stroke="#ccc4b0" stroke-width="0.4"/>
-      <circle cx="-1"  cy="0"  r="1.8" fill="#c8ddc0" opacity="0.72"/>
-    </g>
-  </svg>
+  <!-- Gold border frame -->
+  <div class="hero-border-frame" aria-hidden="true">
+    <span class="hc hc-tl"></span>
+    <span class="hc hc-tr"></span>
+    <span class="hc hc-bl"></span>
+    <span class="hc hc-br"></span>
+  </div>
 
   <!-- Content -->
   <div class="hero-inner">
     <p class="bismillah-hero">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
 
-    <h1 class="hero-names">Shehzaad <span class="amp">&amp;</span> Ramsha</h1>
+    <p class="hero-label">The Wedding Of</p>
 
-    <p class="hero-sub">are getting married</p>
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-diamond"></span>
+      <span class="divider-line"></span>
+    </div>
+
+    <h1 class="hero-names">Shehzaad <span class="amp">&amp;</span> Ramsha</h1>
 
     <button class="scroll-cta" onclick="document.querySelector('.verse-banner').scrollIntoView({behavior:'smooth'})">
       <span>scroll to explore</span>
@@ -877,9 +667,10 @@
 
   <form class="rsvp-form" id="rsvp-form" onsubmit="handleRsvp(event)">
     <div class="rsvp-row">
-      <input type="text" id="rsvp-first" name="firstName" placeholder="First Name" required autocomplete="given-name"/>
-      <input type="text" id="rsvp-last"  name="lastName"  placeholder="Last Name"  required autocomplete="family-name"/>
+      <input type="text"  id="rsvp-first" name="firstName" placeholder="First Name" required autocomplete="given-name"/>
+      <input type="text"  id="rsvp-last"  name="lastName"  placeholder="Last Name"  required autocomplete="family-name"/>
     </div>
+    <input type="email" id="rsvp-email" name="email" placeholder="Email Address (for confirmation)" autocomplete="email"/>
     <select id="rsvp-guests" name="guests" required>
       <option value="" disabled selected>Number of Guests</option>
       <option value="1">1 Guest</option>
@@ -895,7 +686,7 @@
     </select>
     <button type="submit" class="btn-gold" id="rsvp-btn">Confirm Attendance</button>
     <div class="rsvp-success" id="rsvp-success">JazakAllah Khayran — we can't wait to celebrate with you. ✦</div>
-    <div class="rsvp-error"   id="rsvp-error">Something went wrong. Please try again or message us directly.</div>
+    <div class="rsvp-error"   id="rsvp-error">Something went wrong. Please try again or contact us directly.</div>
   </form>
 
   <p class="rsvp-note">Kindly RSVP by 1 September 2026</p>
@@ -955,6 +746,7 @@
   setInterval(updateCountdown, 1000);
 
   // ── RSVP ──
+  // Paste your new Apps Script /exec URL here after redeploying:
   const RSVP_URL = 'https://script.google.com/macros/s/AKfycbzEyYNnOP3YTjz_jDzmlVyxGXuT4DH1PBpQHDYGLetpJdyR1HZB_GEZ1hyCq_NHTzSnCw/exec';
 
   function handleRsvp(e) {
@@ -964,6 +756,7 @@
     const err    = document.getElementById('rsvp-error');
     const first  = document.getElementById('rsvp-first').value.trim();
     const last   = document.getElementById('rsvp-last').value.trim();
+    const email  = document.getElementById('rsvp-email').value.trim();
     const guests = document.getElementById('rsvp-guests').value;
 
     btn.textContent = 'Sending…';
@@ -972,13 +765,17 @@
 
     fetch(RSVP_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      body: new URLSearchParams({ firstName: first, lastName: last, guests })
+      body: new URLSearchParams({ firstName: first, lastName: last, email, guests })
     })
-    .then(() => {
-      ok.style.display = 'block';
-      e.target.reset();
-      btn.style.display = 'none';
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        ok.style.display = 'block';
+        e.target.reset();
+        btn.style.display = 'none';
+      } else {
+        throw new Error(data.error || 'Script error');
+      }
     })
     .catch(() => {
       err.style.display = 'block';
@@ -1000,6 +797,345 @@
     }
     petal.addEventListener('animationend', resetPetal);
   });
+
+  // ── Hero botanical canvas ──
+  (function() {
+    const heroEl = document.getElementById('hero');
+    const hCanvas = document.getElementById('hero-canvas');
+    let hCtx, W, H, dpr;
+
+    // Seeded LCG — same layout every draw, no flicker on resize
+    let _s = 0;
+    function sr(n) { _s = n >>> 0; }
+    function rn() {
+      _s = (Math.imul(1664525, _s) + 1013904223) | 0;
+      return (_s >>> 0) / 0x100000000;
+    }
+
+    function setup() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = heroEl.offsetWidth;
+      H = heroEl.offsetHeight;
+      hCanvas.width  = W * dpr;
+      hCanvas.height = H * dpr;
+      hCanvas.style.width  = W + 'px';
+      hCanvas.style.height = H + 'px';
+      hCtx = hCanvas.getContext('2d');
+      hCtx.scale(dpr, dpr);
+    }
+
+    /* ── Leaf ────────────────────────────────────────────────
+       hue/sat/lig:  HSL of the leaf face
+       alp:          base opacity
+       opts.twist:   lateral lean of tip (−1..1)
+       opts.curl:    edge curl toward viewer (−1..1)
+       opts.asym:    left/right width asymmetry (−0.1..0.1)
+       opts.droop:   whether tip droops (0..1)
+    */
+    function drawLeaf(x, y, len, wid, angle, hue, sat, lig, alp, opts) {
+      const { twist = 0, curl = 0, asym = 0, droop = 0 } = opts || {};
+      hCtx.save();
+      hCtx.translate(x, y);
+      hCtx.rotate(angle);
+
+      const lw = wid * (0.5 + asym);   // left half-width
+      const rw = wid * (0.5 - asym);   // right half-width
+
+      // ── Build path ──────────────────────────────────────
+      // Two bezier segments per side give a more organic silhouette.
+      hCtx.beginPath();
+      hCtx.moveTo(0, 0);
+      // left side — two cubic segments
+      hCtx.bezierCurveTo(
+        -lw * 0.95,  -len * 0.18 + curl * len * 0.07,
+        -lw * 0.92,  -len * 0.60 + curl * len * 0.14,
+        -lw * 0.18 + twist * lw * 0.28,  -len * 0.76 + droop * len * 0.05
+      );
+      hCtx.bezierCurveTo(
+         twist * lw * 0.14,  -len * 0.88 + droop * len * 0.06,
+         twist * lw * 0.06,  -len * 0.96,
+         0,  -len
+      );
+      // right side — two cubic segments (mirrored with slight asymmetry)
+      hCtx.bezierCurveTo(
+         rw * 0.06 - twist * rw * 0.06,  -len * 0.96,
+         rw * 0.14 - twist * rw * 0.14,  -len * 0.88 + droop * len * 0.06,
+         rw * 0.18 - twist * rw * 0.28,  -len * 0.76 + droop * len * 0.05
+      );
+      hCtx.bezierCurveTo(
+         rw * 0.92,  -len * 0.60 - curl * len * 0.14,
+         rw * 0.95,  -len * 0.18 - curl * len * 0.07,
+         0,  0
+      );
+      hCtx.closePath();
+
+      // ── Shadow ──────────────────────────────────────────
+      hCtx.shadowColor = `hsla(${hue - 20}, ${sat}%, 15%, 0.20)`;
+      hCtx.shadowBlur   = 5;
+      hCtx.shadowOffsetX = 1.5;
+      hCtx.shadowOffsetY = 2.8;
+
+      // ── Base fill: tip-to-base gradient ─────────────────
+      const fg = hCtx.createLinearGradient(0, -len, 0, 0);
+      fg.addColorStop(0,    `hsla(${hue+2},  ${sat-8}%,  ${lig-5}%,  ${alp * 0.88})`);
+      fg.addColorStop(0.18, `hsla(${hue+6},  ${sat+2}%,  ${lig+9}%,  ${alp})`);
+      fg.addColorStop(0.55, `hsla(${hue},    ${sat}%,    ${lig}%,    ${alp})`);
+      fg.addColorStop(0.82, `hsla(${hue-5},  ${sat+4}%,  ${lig-10}%, ${alp})`);
+      fg.addColorStop(1,    `hsla(${hue-10}, ${sat+6}%,  ${lig-18}%, ${alp})`);
+      hCtx.fillStyle = fg;
+      hCtx.fill();
+
+      // ── Centre-vein highlight overlay ───────────────────
+      hCtx.shadowBlur = 0;
+      const vg = hCtx.createLinearGradient(-wid * 0.5, 0, wid * 0.5, 0);
+      vg.addColorStop(0,    `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
+      vg.addColorStop(0.40, `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
+      vg.addColorStop(0.50, `hsla(${hue+14}, ${sat-18}%, ${lig+30}%, 0.50)`);
+      vg.addColorStop(0.60, `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
+      vg.addColorStop(1,    `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
+      hCtx.globalAlpha = 0.65;
+      hCtx.fillStyle = vg;
+      hCtx.fill();
+      hCtx.globalAlpha = 1;
+
+      // ── Main vein ───────────────────────────────────────
+      hCtx.beginPath();
+      hCtx.moveTo(0, 0);
+      hCtx.bezierCurveTo(
+        twist * wid * 0.12, -len * 0.38,
+        twist * wid * 0.09, -len * 0.72,
+        twist * wid * 0.04, -len * 0.95
+      );
+      hCtx.strokeStyle = `hsla(${hue+18}, ${sat-16}%, ${lig+32}%, 0.32)`;
+      hCtx.lineWidth = 0.48;
+      hCtx.stroke();
+
+      // ── 3 pairs of lateral veins ─────────────────────────
+      for (let v = 0; v < 3; v++) {
+        const vt  = 0.24 + v * 0.22;
+        const vx0 = twist * wid * 0.1 * vt;
+        const vy0 = -len * vt;
+        hCtx.strokeStyle = `hsla(${hue+14}, ${sat-14}%, ${lig+26}%, 0.19)`;
+        hCtx.lineWidth = 0.28;
+        // left
+        hCtx.beginPath();
+        hCtx.moveTo(vx0, vy0);
+        hCtx.quadraticCurveTo(vx0 - lw * 0.28, vy0 + len * 0.018, vx0 - lw * (0.48 + rn() * 0.12), vy0 - len * 0.012);
+        hCtx.stroke();
+        // right
+        hCtx.beginPath();
+        hCtx.moveTo(vx0, vy0);
+        hCtx.quadraticCurveTo(vx0 + rw * 0.28, vy0 + len * 0.018, vx0 + rw * (0.48 + rn() * 0.12), vy0 - len * 0.012);
+        hCtx.stroke();
+      }
+      hCtx.restore();
+    }
+
+    // Eucalyptus — round, blue-sage, slightly waxy
+    function eu(x, y, sz, angle, alp, opts) {
+      drawLeaf(x, y, sz, sz * 0.68, angle, 172, 22, 44, alp, opts);
+    }
+    // Olive — narrow, muted sage, hint of silver
+    function ol(x, y, sz, angle, alp, opts) {
+      drawLeaf(x, y, sz, sz * 0.34, angle, 86, 20, 40, alp, opts);
+    }
+
+    function qStem(x1, y1, cpx, cpy, x2, y2, w, a) {
+      hCtx.beginPath();
+      hCtx.moveTo(x1, y1);
+      hCtx.quadraticCurveTo(cpx, cpy, x2, y2);
+      hCtx.strokeStyle = `rgba(52, 78, 52, ${a})`;
+      hCtx.lineWidth = w;
+      hCtx.lineCap = 'round';
+      hCtx.shadowBlur = 0;
+      hCtx.stroke();
+    }
+
+    function drawBerry(x, y, r) {
+      hCtx.shadowColor = 'rgba(0,0,0,0.10)';
+      hCtx.shadowBlur = 2;
+      hCtx.beginPath();
+      hCtx.arc(x, y, r, 0, Math.PI * 2);
+      hCtx.fillStyle = 'rgba(250,245,234,0.94)';
+      hCtx.fill();
+      hCtx.shadowBlur = 0;
+      hCtx.strokeStyle = 'rgba(185,148,82,0.38)';
+      hCtx.lineWidth = 0.6;
+      hCtx.stroke();
+      // sage dot
+      hCtx.beginPath();
+      hCtx.arc(x, y, r * 0.44, 0, Math.PI * 2);
+      hCtx.fillStyle = 'rgba(138,170,128,0.48)';
+      hCtx.fill();
+    }
+
+    /* ── Pre-computed draw list ────────────────────────────
+       Each item: { k:'stem'|'leaf'|'berry', ... }
+       Generated once; re-generated on resize.
+    */
+    let list = [];
+
+    /* Place alternating leaves along a quadratic bezier branch.
+       sx,sy → ex,ey with control point cpx,cpy.
+       leafFn: 'eu'|'ol', sz: base leaf length, alp: base opacity
+    */
+    function branch(sx, sy, cpx, cpy, ex, ey, stemW, stemA, leafFn, sz, alp) {
+      list.push({ k:'stem', x1:sx, y1:sy, cpx, cpy, x2:ex, y2:ey, w:stemW, a:stemA });
+
+      const dx = ex - sx, dy = ey - sy;
+      const brLen = Math.sqrt(dx*dx + dy*dy);
+      const spacing = sz * 0.78;
+      const count = Math.max(2, Math.floor(brLen / spacing));
+
+      for (let i = 0; i < count; i++) {
+        const t = (i + 0.5) / count;
+        // Position on quadratic bezier B(t)
+        const bx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
+        const by = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
+        // Tangent direction
+        const tx = 2*(1-t)*(cpx-sx) + 2*t*(ex-cpx);
+        const ty = 2*(1-t)*(cpy-sy) + 2*t*(ey-cpy);
+        const tAng = Math.atan2(ty, tx);
+
+        const side = i % 2 === 0 ? 1 : -1;
+        const leafAng = tAng + side * (Math.PI * 0.52 + (rn()-0.5)*0.40);
+        const leafSz  = sz  * (0.70 + rn() * 0.58);
+        const leafAlp = alp * (0.70 + rn() * 0.38);
+        const layer   = t < 0.45 ? 0 : 1;   // base leaves in front
+        const opts = {
+          twist:  (rn()-0.5)*0.30,
+          curl:   (rn()-0.5)*0.35,
+          asym:   (rn()-0.5)*0.08,
+          droop:  rn() * 0.25
+        };
+        list.push({ k:'leaf', fn:leafFn, x:bx, y:by, sz:leafSz, ang:leafAng, alp:leafAlp, layer, opts });
+      }
+
+      // Berry cluster at tip (60 % chance)
+      if (rn() < 0.60) {
+        for (let b = 0; b < 3; b++) {
+          const t = 0.82 + rn() * 0.18;
+          const bx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
+          const by = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
+          list.push({ k:'berry', x: bx+(rn()-0.5)*9, y: by+(rn()-0.5)*9, r: 2.6+rn()*2.2 });
+        }
+      }
+    }
+
+    /* A main branch from (sx,sy)→(ex,ey) plus N sub-branches fanning off it. */
+    function mainBranch(sx, sy, ex, ey, stemW, leafFn, sz, alp) {
+      const dx = ex-sx, dy = ey-sy;
+      const cpx = (sx+ex)/2 + (rn()-0.5)*Math.abs(dy)*0.22;
+      const cpy = (sy+ey)/2 + (rn()-0.5)*Math.abs(dx)*0.22;
+
+      branch(sx, sy, cpx, cpy, ex, ey, stemW, 0.44, leafFn, sz, alp);
+
+      // 4 sub-branches at 20%, 38%, 55%, 70% along main
+      const subTs = [0.18, 0.36, 0.54, 0.70];
+      subTs.forEach((t, i) => {
+        const bsx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
+        const bsy = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
+        // tangent at t
+        const ttx = 2*(1-t)*(cpx-sx) + 2*t*(ex-cpx);
+        const tty = 2*(1-t)*(cpy-sy) + 2*t*(ey-cpy);
+        const tAng = Math.atan2(tty, ttx);
+        const side = i % 2 === 0 ? 1 : -1;
+        const subAng = tAng + side * (0.62 + (rn()-0.5)*0.28);
+        const subLen = Math.sqrt(dx*dx+dy*dy) * (0.28 + rn()*0.18);
+        const subEx = bsx + Math.cos(subAng) * subLen;
+        const subEy = bsy + Math.sin(subAng) * subLen;
+        const subCpx = (bsx+subEx)/2 + (rn()-0.5)*subLen*0.25;
+        const subCpy = (bsy+subEy)/2 + (rn()-0.5)*subLen*0.25;
+        const altFn = (i % 3 === 0) ? (leafFn === 'eu' ? 'ol' : 'eu') : leafFn;
+        branch(bsx, bsy, subCpx, subCpy, subEx, subEy, stemW*0.55, 0.33, altFn, sz*0.72, alp*0.88);
+      });
+    }
+
+    function generate() {
+      sr(9174);
+      list = [];
+
+      const edge = Math.min(W * 0.20, 110); // max inward reach of botanicals
+
+      // ── Left eucalyptus — main branch top-left → lower-left ──
+      mainBranch(
+        W*0.01, H*0.04,   // start: near top-left
+        W*0.11, H*0.74,   // end: lower-left area
+        1.35, 'eu', 38, 0.52
+      );
+
+      // ── Right olive — main branch top-right → lower-right ──
+      mainBranch(
+        W*0.99, H*0.04,
+        W*0.89, H*0.74,
+        1.35, 'ol', 36, 0.50
+      );
+
+      // ── Bottom-left accent branch ──
+      {
+        const s = 0.38;
+        const sx = W*0.03, sy = H*0.96;
+        const ex = W*0.16, ey = H*0.80;
+        const cpx = (sx+ex)/2 + (rn()-0.5)*20, cpy = (sy+ey)/2 - 20;
+        branch(sx, sy, cpx, cpy, ex, ey, 0.85, 0.34, 'eu', 26, s);
+      }
+
+      // ── Bottom-right accent branch ──
+      {
+        const s = 0.38;
+        const sx = W*0.97, sy = H*0.96;
+        const ex = W*0.84, ey = H*0.80;
+        const cpx = (sx+ex)/2 + (rn()-0.5)*20, cpy = (sy+ey)/2 - 20;
+        branch(sx, sy, cpx, cpy, ex, ey, 0.85, 0.34, 'ol', 26, s);
+      }
+
+      // ── Top-left corner sprig ──
+      {
+        const sx = 0, sy = 0;
+        branch(sx, sy, W*0.06, H*0.04, W*0.13, H*0.08, 0.65, 0.28, 'eu', 18, 0.40);
+        branch(sx, sy, W*0.03, H*0.06, W*0.07, H*0.14, 0.55, 0.24, 'ol', 15, 0.36);
+      }
+
+      // ── Top-right corner sprig ──
+      {
+        const sx = W, sy = 0;
+        branch(sx, sy, W*0.94, H*0.04, W*0.87, H*0.08, 0.65, 0.28, 'ol', 18, 0.40);
+        branch(sx, sy, W*0.97, H*0.06, W*0.93, H*0.14, 0.55, 0.24, 'eu', 15, 0.36);
+      }
+
+      // Sort: stems first → back leaves → front leaves → berries
+      list.sort((a, b) => {
+        const rank = { stem:0, leaf:1, berry:3 };
+        if (a.k !== b.k) return rank[a.k] - rank[b.k];
+        if (a.k === 'leaf') return (a.layer||0) - (b.layer||0);
+        return 0;
+      });
+    }
+
+    function draw() {
+      hCtx.clearRect(0, 0, W, H);
+      for (const d of list) {
+        if (d.k === 'stem') {
+          qStem(d.x1, d.y1, d.cpx, d.cpy, d.x2, d.y2, d.w, d.a);
+        } else if (d.k === 'leaf') {
+          if (d.fn === 'eu') eu(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
+          else               ol(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
+        } else if (d.k === 'berry') {
+          drawBerry(d.x, d.y, d.r);
+        }
+      }
+    }
+
+    function init() { setup(); generate(); draw(); }
+
+    let rt;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(init, 100); });
+    window.addEventListener('scroll', () => {
+      const sy = window.scrollY;
+      if (sy < H) hCanvas.style.transform = `translateY(${sy * 0.16}px)`;
+    }, { passive: true });
+    window.addEventListener('load', init);
+  })();
 
   // ── Gold dust particles ──
   const canvas = document.createElement('canvas');
