@@ -763,16 +763,13 @@
     btn.disabled = true;
     ok.style.display = err.style.display = 'none';
 
-    fetch(RSVP_URL + '?' + new URLSearchParams({ firstName: first, lastName: last, email, guests }))
-    .then(r => r.json())
-    .then(data => {
-      if (data.ok) {
-        ok.style.display = 'block';
-        e.target.reset();
-        btn.style.display = 'none';
-      } else {
-        throw new Error(data.error || 'Script error');
-      }
+    fetch(RSVP_URL + '?' + new URLSearchParams({ firstName: first, lastName: last, email, guests }), {
+      mode: 'no-cors'
+    })
+    .then(() => {
+      ok.style.display = 'block';
+      e.target.reset();
+      btn.style.display = 'none';
     })
     .catch(() => {
       err.style.display = 'block';
