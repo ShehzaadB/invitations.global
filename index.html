@@ -748,7 +748,7 @@
   // ── RSVP ──
   // Paste your new Apps Script /exec URL here after redeploying:
   const RSVP_URL = 'https://script.google.com/macros/s/AKfycbzEyYNnOP3YTjz_jDzmlVyxGXuT4DH1PBpQHDYGLetpJdyR1HZB_GEZ1hyCq_NHTzSnCw/exec';
-
+                    
   function handleRsvp(e) {
     e.preventDefault();
     const btn    = document.getElementById('rsvp-btn');
@@ -763,10 +763,7 @@
     btn.disabled = true;
     ok.style.display = err.style.display = 'none';
 
-    fetch(RSVP_URL, {
-      method: 'POST',
-      body: new URLSearchParams({ firstName: first, lastName: last, email, guests })
-    })
+    fetch(RSVP_URL + '?' + new URLSearchParams({ firstName: first, lastName: last, email, guests }))
     .then(r => r.json())
     .then(data => {
       if (data.ok) {
