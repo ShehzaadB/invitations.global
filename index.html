@@ -963,8 +963,57 @@
       hCtx.fill();
     }
 
+    // ── Peony ──────────────────────────────────────────────
+    function drawPeonyPetal(x,y,len,wid,ang,h,s,l,a,rfl) {
+      hCtx.save(); hCtx.translate(x,y); hCtx.rotate(ang);
+      hCtx.shadowColor=`hsla(${h-15},${s}%,${l-35}%,0.22)`; hCtx.shadowBlur=7; hCtx.shadowOffsetX=1; hCtx.shadowOffsetY=3;
+      const grad=hCtx.createLinearGradient(0,-len*0.05,0,-len);
+      grad.addColorStop(0,  `hsla(${h-10},${s+10}%,${l-22}%,${a})`);
+      grad.addColorStop(0.22,`hsla(${h-4}, ${s+4}%, ${l-8}%, ${a})`);
+      grad.addColorStop(0.55,`hsla(${h+3}, ${s-4}%, ${l+9}%, ${a*0.96})`);
+      grad.addColorStop(0.84,`hsla(${h+7}, ${s-12}%,${l+19}%,${a*0.84})`);
+      grad.addColorStop(1,  `hsla(${h+10},${s-20}%,${l+26}%,${a*0.62})`);
+      hCtx.beginPath(); hCtx.moveTo(0,0);
+      hCtx.bezierCurveTo(-wid*(0.52+rfl*0.06),-len*0.18,-wid*(0.60-rfl*0.04),-len*0.64,rfl*wid*0.14,-len);
+      hCtx.bezierCurveTo( wid*(0.60+rfl*0.04),-len*0.64, wid*(0.52-rfl*0.06),-len*0.18,0,0);
+      hCtx.closePath(); hCtx.fillStyle=grad; hCtx.fill();
+      hCtx.shadowBlur=0;
+      hCtx.beginPath(); hCtx.moveTo(0,-len*0.1); hCtx.quadraticCurveTo(rfl*wid*0.08,-len*0.55,rfl*wid*0.06,-len*0.92);
+      hCtx.strokeStyle=`hsla(${h+15},${s-20}%,${l+35}%,0.22)`; hCtx.lineWidth=0.4; hCtx.stroke();
+      hCtx.restore();
+    }
+
+    function drawPeony(cx,cy,size,h,s,l,a,seed) {
+      sr(seed);
+      const layers=[
+        {n:5, r:size*0.92,w:size*0.50,d:size*0.18,rot:0},
+        {n:6, r:size*0.78,w:size*0.42,d:size*0.10,rot:0.30},
+        {n:7, r:size*0.63,w:size*0.33,d:size*0.05,rot:0.58},
+        {n:8, r:size*0.47,w:size*0.24,d:size*0.02,rot:0.88},
+        {n:10,r:size*0.30,w:size*0.15,d:0,         rot:1.18},
+      ];
+      layers.forEach((lay,li)=>{
+        const step=(Math.PI*2)/lay.n;
+        for(let i=0;i<lay.n;i++){
+          const pAng=i*step+lay.rot;
+          const px=cx+Math.cos(pAng)*lay.d, py=cy+Math.sin(pAng)*lay.d;
+          const rfl=rn()*2-1;
+          drawPeonyPetal(px,py,lay.r,lay.w,pAng+Math.PI*0.5,h,s-li*2,l+li*3,a,rfl);
+        }
+      });
+      hCtx.shadowBlur=0;
+      const cg=hCtx.createRadialGradient(cx-size*0.04,cy-size*0.04,0,cx,cy,size*0.14);
+      cg.addColorStop(0,'rgba(255,242,192,0.97)'); cg.addColorStop(0.5,'rgba(222,188,112,0.92)'); cg.addColorStop(1,'rgba(178,135,60,0.82)');
+      hCtx.beginPath(); hCtx.arc(cx,cy,size*0.14,0,Math.PI*2); hCtx.fillStyle=cg; hCtx.fill();
+      for(let i=0;i<16;i++){
+        const sa=rn()*Math.PI*2, sd=rn()*size*0.11;
+        hCtx.beginPath(); hCtx.arc(cx+Math.cos(sa)*sd,cy+Math.sin(sa)*sd,1.0+rn()*0.9,0,Math.PI*2);
+        hCtx.fillStyle=`rgba(172,128,42,${0.5+rn()*0.45})`; hCtx.fill();
+      }
+    }
+
     /* ── Pre-computed draw list ────────────────────────────
-       Each item: { k:'stem'|'leaf'|'berry', ... }
+       Each item: { k:'stem'|'leaf'|'flower'|'berry', ... }
        Generated once; re-generated on resize.
     */
     let list = [];
@@ -1049,6 +1098,14 @@
       sr(9174);
       list = [];
 
+      const fs = Math.min(W * 0.075, 68); // peony size
+
+      // ── Peonies (back — drawn behind foliage) ──
+      list.push({k:'flower',x:fs*0.80,y:fs*0.80,size:fs,     h:12,s:38,l:85,a:0.82,layer:0,seed:101});
+      list.push({k:'flower',x:W-fs*0.80,y:fs*0.80,size:fs*0.92,h:8, s:35,l:87,a:0.80,layer:0,seed:202});
+      list.push({k:'flower',x:fs*0.65,y:H-fs*0.65,size:fs*0.78,h:15,s:40,l:83,a:0.75,layer:0,seed:303});
+      list.push({k:'flower',x:W-fs*0.65,y:H-fs*0.65,size:fs*0.78,h:10,s:36,l:86,a:0.75,layer:0,seed:404});
+
       const edge = Math.min(W * 0.20, 110); // max inward reach of botanicals
 
       // ── Left eucalyptus — main branch top-left → lower-left ──
@@ -1097,11 +1154,15 @@
         branch(sx, sy, W*0.97, H*0.06, W*0.93, H*0.14, 0.55, 0.24, 'eu', 15, 0.36);
       }
 
-      // Sort: stems first → back leaves → front leaves → berries
+      // ── Peonies (front — peek through foliage at top corners) ──
+      list.push({k:'flower',x:fs*0.48,y:fs*0.48,size:fs*0.60,  h:16,s:42,l:82,a:0.90,layer:1,seed:505});
+      list.push({k:'flower',x:W-fs*0.48,y:fs*0.48,size:fs*0.60,h:9, s:36,l:88,a:0.88,layer:1,seed:606});
+
+      // Sort: stems → back leaves/flowers → front leaves/flowers → berries
       list.sort((a, b) => {
-        const rank = { stem:0, leaf:1, berry:3 };
+        const rank = { stem:0, leaf:1, flower:2, berry:4 };
         if (a.k !== b.k) return rank[a.k] - rank[b.k];
-        if (a.k === 'leaf') return (a.layer||0) - (b.layer||0);
+        if (a.k === 'leaf' || a.k === 'flower') return (a.layer||0) - (b.layer||0);
         return 0;
       });
     }
@@ -1114,6 +1175,8 @@
         } else if (d.k === 'leaf') {
           if (d.fn === 'eu') eu(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
           else               ol(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
+        } else if (d.k === 'flower') {
+          drawPeony(d.x, d.y, d.size, d.h, d.s, d.l, d.a, d.seed);
         } else if (d.k === 'berry') {
           drawBerry(d.x, d.y, d.r);
         }
