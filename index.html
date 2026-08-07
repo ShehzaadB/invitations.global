@@ -65,19 +65,6 @@
       overflow: hidden;
     }
 
-    /* Ambient color depth */
-    #hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 55% 42% at 4% 4%,   rgba(120,152,120,0.055) 0%, transparent 68%),
-        radial-gradient(ellipse 50% 40% at 96% 4%,  rgba(120,152,120,0.045) 0%, transparent 65%),
-        radial-gradient(ellipse 65% 32% at 50% 100%,rgba(100,122,90,0.065) 0%, transparent 58%),
-        radial-gradient(ellipse 28% 28% at 4% 96%,  rgba(115,138,105,0.05) 0%, transparent 62%),
-        radial-gradient(ellipse 28% 28% at 96% 96%, rgba(115,138,105,0.05) 0%, transparent 62%);
-      pointer-events: none;
-      z-index: 1;
-    }
 
     /* Paper grain texture */
     #hero::after {
@@ -111,17 +98,6 @@
         linear-gradient(to right,  transparent 0%, black 5%, black 95%, transparent 100%),
         linear-gradient(to bottom, black 0%, black 55%, transparent 84%);
       mask-composite: intersect;
-    }
-
-    /* Canvas botanical frame */
-    .hero-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 2;
-      will-change: transform;
     }
 
     /* Gold border frame */
@@ -552,6 +528,53 @@
     @media (max-width: 600px) {
       .details-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── Mobile Hero ── */
+    @media (max-width: 480px) {
+      .hero-floral {
+        height: 34vh;
+        -webkit-mask-image:
+          linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%),
+          linear-gradient(to bottom, black 0%, black 50%, transparent 80%);
+        mask-image:
+          linear-gradient(to right, transparent 0%, black 2%, black 98%, transparent 100%),
+          linear-gradient(to bottom, black 0%, black 50%, transparent 80%);
+      }
+
+      .hero-inner {
+        padding: 0 1.4rem;
+        margin-top: clamp(130px, 30vh, 200px);
+      }
+
+      .bismillah-hero {
+        font-size: 0.82rem;
+        letter-spacing: 0.10em;
+        margin-bottom: 1.2rem;
+      }
+
+      .hero-label {
+        font-size: 0.52rem;
+        letter-spacing: 0.32em;
+        margin-bottom: 0.9rem;
+      }
+
+      .hero-names {
+        font-size: clamp(2.4rem, 11vw, 3.5rem);
+        letter-spacing: 0.02em;
+      }
+
+      .divider { max-width: 180px; margin-bottom: 0.8rem; }
+
+      .scroll-cta { margin-top: 2rem; }
+
+      .hero-border-frame { inset: 10px; }
+
+      .detail-card { padding: 2rem 1.5rem; }
+      .detail-card h3 { font-size: 1.4rem; }
+      .detail-card p { font-size: 0.92rem; }
+
+      .section-title { font-size: clamp(1.6rem, 6vw, 2rem); }
+    }
   </style>
 </head>
 <body>
@@ -586,9 +609,6 @@
 
   <!-- Floral photo header -->
   <img class="hero-floral" src="flowers.jpg" alt="" aria-hidden="true" />
-
-  <!-- Canvas botanical frame -->
-  <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
 
   <!-- Gold border frame -->
   <div class="hero-border-frame" aria-hidden="true">
@@ -827,408 +847,6 @@
     }
     petal.addEventListener('animationend', resetPetal);
   });
-
-  // ── Hero botanical canvas ──
-  (function() {
-    const heroEl = document.getElementById('hero');
-    const hCanvas = document.getElementById('hero-canvas');
-    let hCtx, W, H, dpr;
-
-    // Seeded LCG — same layout every draw, no flicker on resize
-    let _s = 0;
-    function sr(n) { _s = n >>> 0; }
-    function rn() {
-      _s = (Math.imul(1664525, _s) + 1013904223) | 0;
-      return (_s >>> 0) / 0x100000000;
-    }
-
-    function setup() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = heroEl.offsetWidth;
-      H = heroEl.offsetHeight;
-      hCanvas.width  = W * dpr;
-      hCanvas.height = H * dpr;
-      hCanvas.style.width  = W + 'px';
-      hCanvas.style.height = H + 'px';
-      hCtx = hCanvas.getContext('2d');
-      hCtx.scale(dpr, dpr);
-    }
-
-    /* ── Leaf ────────────────────────────────────────────────
-       hue/sat/lig:  HSL of the leaf face
-       alp:          base opacity
-       opts.twist:   lateral lean of tip (−1..1)
-       opts.curl:    edge curl toward viewer (−1..1)
-       opts.asym:    left/right width asymmetry (−0.1..0.1)
-       opts.droop:   whether tip droops (0..1)
-    */
-    function drawLeaf(x, y, len, wid, angle, hue, sat, lig, alp, opts) {
-      const { twist = 0, curl = 0, asym = 0, droop = 0 } = opts || {};
-      hCtx.save();
-      hCtx.translate(x, y);
-      hCtx.rotate(angle);
-
-      const lw = wid * (0.5 + asym);   // left half-width
-      const rw = wid * (0.5 - asym);   // right half-width
-
-      // ── Build path ──────────────────────────────────────
-      // Two bezier segments per side give a more organic silhouette.
-      hCtx.beginPath();
-      hCtx.moveTo(0, 0);
-      // left side — two cubic segments
-      hCtx.bezierCurveTo(
-        -lw * 0.95,  -len * 0.18 + curl * len * 0.07,
-        -lw * 0.92,  -len * 0.60 + curl * len * 0.14,
-        -lw * 0.18 + twist * lw * 0.28,  -len * 0.76 + droop * len * 0.05
-      );
-      hCtx.bezierCurveTo(
-         twist * lw * 0.14,  -len * 0.88 + droop * len * 0.06,
-         twist * lw * 0.06,  -len * 0.96,
-         0,  -len
-      );
-      // right side — two cubic segments (mirrored with slight asymmetry)
-      hCtx.bezierCurveTo(
-         rw * 0.06 - twist * rw * 0.06,  -len * 0.96,
-         rw * 0.14 - twist * rw * 0.14,  -len * 0.88 + droop * len * 0.06,
-         rw * 0.18 - twist * rw * 0.28,  -len * 0.76 + droop * len * 0.05
-      );
-      hCtx.bezierCurveTo(
-         rw * 0.92,  -len * 0.60 - curl * len * 0.14,
-         rw * 0.95,  -len * 0.18 - curl * len * 0.07,
-         0,  0
-      );
-      hCtx.closePath();
-
-      // ── Shadow ──────────────────────────────────────────
-      hCtx.shadowColor = `hsla(${hue - 20}, ${sat}%, 15%, 0.20)`;
-      hCtx.shadowBlur   = 5;
-      hCtx.shadowOffsetX = 1.5;
-      hCtx.shadowOffsetY = 2.8;
-
-      // ── Base fill: tip-to-base gradient ─────────────────
-      const fg = hCtx.createLinearGradient(0, -len, 0, 0);
-      fg.addColorStop(0,    `hsla(${hue+2},  ${sat-8}%,  ${lig-5}%,  ${alp * 0.88})`);
-      fg.addColorStop(0.18, `hsla(${hue+6},  ${sat+2}%,  ${lig+9}%,  ${alp})`);
-      fg.addColorStop(0.55, `hsla(${hue},    ${sat}%,    ${lig}%,    ${alp})`);
-      fg.addColorStop(0.82, `hsla(${hue-5},  ${sat+4}%,  ${lig-10}%, ${alp})`);
-      fg.addColorStop(1,    `hsla(${hue-10}, ${sat+6}%,  ${lig-18}%, ${alp})`);
-      hCtx.fillStyle = fg;
-      hCtx.fill();
-
-      // ── Centre-vein highlight overlay ───────────────────
-      hCtx.shadowBlur = 0;
-      const vg = hCtx.createLinearGradient(-wid * 0.5, 0, wid * 0.5, 0);
-      vg.addColorStop(0,    `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
-      vg.addColorStop(0.40, `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
-      vg.addColorStop(0.50, `hsla(${hue+14}, ${sat-18}%, ${lig+30}%, 0.50)`);
-      vg.addColorStop(0.60, `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
-      vg.addColorStop(1,    `hsla(${hue}, ${sat}%, ${lig}%, 0)`);
-      hCtx.globalAlpha = 0.65;
-      hCtx.fillStyle = vg;
-      hCtx.fill();
-      hCtx.globalAlpha = 1;
-
-      // ── Main vein ───────────────────────────────────────
-      hCtx.beginPath();
-      hCtx.moveTo(0, 0);
-      hCtx.bezierCurveTo(
-        twist * wid * 0.12, -len * 0.38,
-        twist * wid * 0.09, -len * 0.72,
-        twist * wid * 0.04, -len * 0.95
-      );
-      hCtx.strokeStyle = `hsla(${hue+18}, ${sat-16}%, ${lig+32}%, 0.32)`;
-      hCtx.lineWidth = 0.48;
-      hCtx.stroke();
-
-      // ── 3 pairs of lateral veins ─────────────────────────
-      for (let v = 0; v < 3; v++) {
-        const vt  = 0.24 + v * 0.22;
-        const vx0 = twist * wid * 0.1 * vt;
-        const vy0 = -len * vt;
-        hCtx.strokeStyle = `hsla(${hue+14}, ${sat-14}%, ${lig+26}%, 0.19)`;
-        hCtx.lineWidth = 0.28;
-        // left
-        hCtx.beginPath();
-        hCtx.moveTo(vx0, vy0);
-        hCtx.quadraticCurveTo(vx0 - lw * 0.28, vy0 + len * 0.018, vx0 - lw * (0.48 + rn() * 0.12), vy0 - len * 0.012);
-        hCtx.stroke();
-        // right
-        hCtx.beginPath();
-        hCtx.moveTo(vx0, vy0);
-        hCtx.quadraticCurveTo(vx0 + rw * 0.28, vy0 + len * 0.018, vx0 + rw * (0.48 + rn() * 0.12), vy0 - len * 0.012);
-        hCtx.stroke();
-      }
-      hCtx.restore();
-    }
-
-    // Eucalyptus — round, blue-sage, slightly waxy
-    function eu(x, y, sz, angle, alp, opts) {
-      drawLeaf(x, y, sz, sz * 0.68, angle, 172, 22, 44, alp, opts);
-    }
-    // Olive — narrow, muted sage, hint of silver
-    function ol(x, y, sz, angle, alp, opts) {
-      drawLeaf(x, y, sz, sz * 0.34, angle, 86, 20, 40, alp, opts);
-    }
-
-    function qStem(x1, y1, cpx, cpy, x2, y2, w, a) {
-      hCtx.beginPath();
-      hCtx.moveTo(x1, y1);
-      hCtx.quadraticCurveTo(cpx, cpy, x2, y2);
-      hCtx.strokeStyle = `rgba(52, 78, 52, ${a})`;
-      hCtx.lineWidth = w;
-      hCtx.lineCap = 'round';
-      hCtx.shadowBlur = 0;
-      hCtx.stroke();
-    }
-
-    function drawBerry(x, y, r) {
-      hCtx.shadowColor = 'rgba(0,0,0,0.10)';
-      hCtx.shadowBlur = 2;
-      hCtx.beginPath();
-      hCtx.arc(x, y, r, 0, Math.PI * 2);
-      hCtx.fillStyle = 'rgba(250,245,234,0.94)';
-      hCtx.fill();
-      hCtx.shadowBlur = 0;
-      hCtx.strokeStyle = 'rgba(185,148,82,0.38)';
-      hCtx.lineWidth = 0.6;
-      hCtx.stroke();
-      // sage dot
-      hCtx.beginPath();
-      hCtx.arc(x, y, r * 0.44, 0, Math.PI * 2);
-      hCtx.fillStyle = 'rgba(138,170,128,0.48)';
-      hCtx.fill();
-    }
-
-    // ── Peony ──────────────────────────────────────────────
-    function drawPeonyPetal(x,y,len,wid,ang,h,s,l,a,rfl) {
-      hCtx.save(); hCtx.translate(x,y); hCtx.rotate(ang);
-      hCtx.shadowColor=`hsla(${h-15},${s}%,${l-35}%,0.22)`; hCtx.shadowBlur=7; hCtx.shadowOffsetX=1; hCtx.shadowOffsetY=3;
-      const grad=hCtx.createLinearGradient(0,-len*0.05,0,-len);
-      grad.addColorStop(0,  `hsla(${h-10},${s+10}%,${l-22}%,${a})`);
-      grad.addColorStop(0.22,`hsla(${h-4}, ${s+4}%, ${l-8}%, ${a})`);
-      grad.addColorStop(0.55,`hsla(${h+3}, ${s-4}%, ${l+9}%, ${a*0.96})`);
-      grad.addColorStop(0.84,`hsla(${h+7}, ${s-12}%,${l+19}%,${a*0.84})`);
-      grad.addColorStop(1,  `hsla(${h+10},${s-20}%,${l+26}%,${a*0.62})`);
-      hCtx.beginPath(); hCtx.moveTo(0,0);
-      hCtx.bezierCurveTo(-wid*(0.52+rfl*0.06),-len*0.18,-wid*(0.60-rfl*0.04),-len*0.64,rfl*wid*0.14,-len);
-      hCtx.bezierCurveTo( wid*(0.60+rfl*0.04),-len*0.64, wid*(0.52-rfl*0.06),-len*0.18,0,0);
-      hCtx.closePath(); hCtx.fillStyle=grad; hCtx.fill();
-      hCtx.shadowBlur=0;
-      hCtx.beginPath(); hCtx.moveTo(0,-len*0.1); hCtx.quadraticCurveTo(rfl*wid*0.08,-len*0.55,rfl*wid*0.06,-len*0.92);
-      hCtx.strokeStyle=`hsla(${h+15},${s-20}%,${l+35}%,0.22)`; hCtx.lineWidth=0.4; hCtx.stroke();
-      hCtx.restore();
-    }
-
-    function drawPeony(cx,cy,size,h,s,l,a,seed) {
-      sr(seed);
-      const layers=[
-        {n:5, r:size*0.92,w:size*0.50,d:size*0.18,rot:0},
-        {n:6, r:size*0.78,w:size*0.42,d:size*0.10,rot:0.30},
-        {n:7, r:size*0.63,w:size*0.33,d:size*0.05,rot:0.58},
-        {n:8, r:size*0.47,w:size*0.24,d:size*0.02,rot:0.88},
-        {n:10,r:size*0.30,w:size*0.15,d:0,         rot:1.18},
-      ];
-      layers.forEach((lay,li)=>{
-        const step=(Math.PI*2)/lay.n;
-        for(let i=0;i<lay.n;i++){
-          const pAng=i*step+lay.rot;
-          const px=cx+Math.cos(pAng)*lay.d, py=cy+Math.sin(pAng)*lay.d;
-          const rfl=rn()*2-1;
-          drawPeonyPetal(px,py,lay.r,lay.w,pAng+Math.PI*0.5,h,s-li*2,l+li*3,a,rfl);
-        }
-      });
-      hCtx.shadowBlur=0;
-      const cg=hCtx.createRadialGradient(cx-size*0.04,cy-size*0.04,0,cx,cy,size*0.14);
-      cg.addColorStop(0,'rgba(255,242,192,0.97)'); cg.addColorStop(0.5,'rgba(222,188,112,0.92)'); cg.addColorStop(1,'rgba(178,135,60,0.82)');
-      hCtx.beginPath(); hCtx.arc(cx,cy,size*0.14,0,Math.PI*2); hCtx.fillStyle=cg; hCtx.fill();
-      for(let i=0;i<16;i++){
-        const sa=rn()*Math.PI*2, sd=rn()*size*0.11;
-        hCtx.beginPath(); hCtx.arc(cx+Math.cos(sa)*sd,cy+Math.sin(sa)*sd,1.0+rn()*0.9,0,Math.PI*2);
-        hCtx.fillStyle=`rgba(172,128,42,${0.5+rn()*0.45})`; hCtx.fill();
-      }
-    }
-
-    /* ── Pre-computed draw list ────────────────────────────
-       Each item: { k:'stem'|'leaf'|'flower'|'berry', ... }
-       Generated once; re-generated on resize.
-    */
-    let list = [];
-
-    /* Place alternating leaves along a quadratic bezier branch.
-       sx,sy → ex,ey with control point cpx,cpy.
-       leafFn: 'eu'|'ol', sz: base leaf length, alp: base opacity
-    */
-    function branch(sx, sy, cpx, cpy, ex, ey, stemW, stemA, leafFn, sz, alp) {
-      list.push({ k:'stem', x1:sx, y1:sy, cpx, cpy, x2:ex, y2:ey, w:stemW, a:stemA });
-
-      const dx = ex - sx, dy = ey - sy;
-      const brLen = Math.sqrt(dx*dx + dy*dy);
-      const spacing = sz * 0.78;
-      const count = Math.max(2, Math.floor(brLen / spacing));
-
-      for (let i = 0; i < count; i++) {
-        const t = (i + 0.5) / count;
-        // Position on quadratic bezier B(t)
-        const bx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
-        const by = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
-        // Tangent direction
-        const tx = 2*(1-t)*(cpx-sx) + 2*t*(ex-cpx);
-        const ty = 2*(1-t)*(cpy-sy) + 2*t*(ey-cpy);
-        const tAng = Math.atan2(ty, tx);
-
-        const side = i % 2 === 0 ? 1 : -1;
-        const leafAng = tAng + side * (Math.PI * 0.52 + (rn()-0.5)*0.40);
-        const leafSz  = sz  * (0.70 + rn() * 0.58);
-        const leafAlp = alp * (0.70 + rn() * 0.38);
-        const layer   = t < 0.45 ? 0 : 1;   // base leaves in front
-        const opts = {
-          twist:  (rn()-0.5)*0.30,
-          curl:   (rn()-0.5)*0.35,
-          asym:   (rn()-0.5)*0.08,
-          droop:  rn() * 0.25
-        };
-        list.push({ k:'leaf', fn:leafFn, x:bx, y:by, sz:leafSz, ang:leafAng, alp:leafAlp, layer, opts });
-      }
-
-      // Berry cluster at tip (60 % chance)
-      if (rn() < 0.60) {
-        for (let b = 0; b < 3; b++) {
-          const t = 0.82 + rn() * 0.18;
-          const bx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
-          const by = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
-          list.push({ k:'berry', x: bx+(rn()-0.5)*9, y: by+(rn()-0.5)*9, r: 2.6+rn()*2.2 });
-        }
-      }
-    }
-
-    /* A main branch from (sx,sy)→(ex,ey) plus N sub-branches fanning off it. */
-    function mainBranch(sx, sy, ex, ey, stemW, leafFn, sz, alp) {
-      const dx = ex-sx, dy = ey-sy;
-      const cpx = (sx+ex)/2 + (rn()-0.5)*Math.abs(dy)*0.22;
-      const cpy = (sy+ey)/2 + (rn()-0.5)*Math.abs(dx)*0.22;
-
-      branch(sx, sy, cpx, cpy, ex, ey, stemW, 0.44, leafFn, sz, alp);
-
-      // 4 sub-branches at 20%, 38%, 55%, 70% along main
-      const subTs = [0.18, 0.36, 0.54, 0.70];
-      subTs.forEach((t, i) => {
-        const bsx = (1-t)*(1-t)*sx + 2*(1-t)*t*cpx + t*t*ex;
-        const bsy = (1-t)*(1-t)*sy + 2*(1-t)*t*cpy + t*t*ey;
-        // tangent at t
-        const ttx = 2*(1-t)*(cpx-sx) + 2*t*(ex-cpx);
-        const tty = 2*(1-t)*(cpy-sy) + 2*t*(ey-cpy);
-        const tAng = Math.atan2(tty, ttx);
-        const side = i % 2 === 0 ? 1 : -1;
-        const subAng = tAng + side * (0.62 + (rn()-0.5)*0.28);
-        const subLen = Math.sqrt(dx*dx+dy*dy) * (0.28 + rn()*0.18);
-        const subEx = bsx + Math.cos(subAng) * subLen;
-        const subEy = bsy + Math.sin(subAng) * subLen;
-        const subCpx = (bsx+subEx)/2 + (rn()-0.5)*subLen*0.25;
-        const subCpy = (bsy+subEy)/2 + (rn()-0.5)*subLen*0.25;
-        const altFn = (i % 3 === 0) ? (leafFn === 'eu' ? 'ol' : 'eu') : leafFn;
-        branch(bsx, bsy, subCpx, subCpy, subEx, subEy, stemW*0.55, 0.33, altFn, sz*0.72, alp*0.88);
-      });
-    }
-
-    function generate() {
-      sr(9174);
-      list = [];
-
-      const fs = Math.min(W * 0.075, 68); // peony size
-
-      // ── Peonies (back — drawn behind foliage) ──
-      list.push({k:'flower',x:fs*0.80,y:fs*0.80,size:fs,     h:12,s:38,l:85,a:0.82,layer:0,seed:101});
-      list.push({k:'flower',x:W-fs*0.80,y:fs*0.80,size:fs*0.92,h:8, s:35,l:87,a:0.80,layer:0,seed:202});
-      list.push({k:'flower',x:fs*0.65,y:H-fs*0.65,size:fs*0.78,h:15,s:40,l:83,a:0.75,layer:0,seed:303});
-      list.push({k:'flower',x:W-fs*0.65,y:H-fs*0.65,size:fs*0.78,h:10,s:36,l:86,a:0.75,layer:0,seed:404});
-
-      const edge = Math.min(W * 0.20, 110); // max inward reach of botanicals
-
-      // ── Left eucalyptus — main branch top-left → lower-left ──
-      mainBranch(
-        W*0.01, H*0.04,   // start: near top-left
-        W*0.11, H*0.74,   // end: lower-left area
-        1.35, 'eu', 38, 0.52
-      );
-
-      // ── Right olive — main branch top-right → lower-right ──
-      mainBranch(
-        W*0.99, H*0.04,
-        W*0.89, H*0.74,
-        1.35, 'ol', 36, 0.50
-      );
-
-      // ── Bottom-left accent branch ──
-      {
-        const s = 0.38;
-        const sx = W*0.03, sy = H*0.96;
-        const ex = W*0.16, ey = H*0.80;
-        const cpx = (sx+ex)/2 + (rn()-0.5)*20, cpy = (sy+ey)/2 - 20;
-        branch(sx, sy, cpx, cpy, ex, ey, 0.85, 0.34, 'eu', 26, s);
-      }
-
-      // ── Bottom-right accent branch ──
-      {
-        const s = 0.38;
-        const sx = W*0.97, sy = H*0.96;
-        const ex = W*0.84, ey = H*0.80;
-        const cpx = (sx+ex)/2 + (rn()-0.5)*20, cpy = (sy+ey)/2 - 20;
-        branch(sx, sy, cpx, cpy, ex, ey, 0.85, 0.34, 'ol', 26, s);
-      }
-
-      // ── Top-left corner sprig ──
-      {
-        const sx = 0, sy = 0;
-        branch(sx, sy, W*0.06, H*0.04, W*0.13, H*0.08, 0.65, 0.28, 'eu', 18, 0.40);
-        branch(sx, sy, W*0.03, H*0.06, W*0.07, H*0.14, 0.55, 0.24, 'ol', 15, 0.36);
-      }
-
-      // ── Top-right corner sprig ──
-      {
-        const sx = W, sy = 0;
-        branch(sx, sy, W*0.94, H*0.04, W*0.87, H*0.08, 0.65, 0.28, 'ol', 18, 0.40);
-        branch(sx, sy, W*0.97, H*0.06, W*0.93, H*0.14, 0.55, 0.24, 'eu', 15, 0.36);
-      }
-
-      // ── Peonies (front — peek through foliage at top corners) ──
-      list.push({k:'flower',x:fs*0.48,y:fs*0.48,size:fs*0.60,  h:16,s:42,l:82,a:0.90,layer:1,seed:505});
-      list.push({k:'flower',x:W-fs*0.48,y:fs*0.48,size:fs*0.60,h:9, s:36,l:88,a:0.88,layer:1,seed:606});
-
-      // Sort: stems → back leaves/flowers → front leaves/flowers → berries
-      list.sort((a, b) => {
-        const rank = { stem:0, leaf:1, flower:2, berry:4 };
-        if (a.k !== b.k) return rank[a.k] - rank[b.k];
-        if (a.k === 'leaf' || a.k === 'flower') return (a.layer||0) - (b.layer||0);
-        return 0;
-      });
-    }
-
-    function draw() {
-      hCtx.clearRect(0, 0, W, H);
-      for (const d of list) {
-        if (d.k === 'stem') {
-          qStem(d.x1, d.y1, d.cpx, d.cpy, d.x2, d.y2, d.w, d.a);
-        } else if (d.k === 'leaf') {
-          if (d.fn === 'eu') eu(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
-          else               ol(d.x, d.y, d.sz, d.ang, d.alp, d.opts);
-        } else if (d.k === 'flower') {
-          drawPeony(d.x, d.y, d.size, d.h, d.s, d.l, d.a, d.seed);
-        } else if (d.k === 'berry') {
-          drawBerry(d.x, d.y, d.r);
-        }
-      }
-    }
-
-    function init() { setup(); generate(); draw(); }
-
-    let rt;
-    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(init, 100); });
-    window.addEventListener('scroll', () => {
-      const sy = window.scrollY;
-      if (sy < H) hCanvas.style.transform = `translateY(${sy * 0.16}px)`;
-    }, { passive: true });
-    window.addEventListener('load', init);
-  })();
 
   // ── Gold dust particles ──
   const canvas = document.createElement('canvas');
