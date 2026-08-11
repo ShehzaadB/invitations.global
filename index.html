@@ -818,7 +818,6 @@
       <input type="text"  id="rsvp-first" name="firstName" placeholder="First Name" required autocomplete="given-name"/>
       <input type="text"  id="rsvp-last"  name="lastName"  placeholder="Last Name"  required autocomplete="family-name"/>
     </div>
-    <input type="email" id="rsvp-email" name="email" placeholder="Email Address (for confirmation)" autocomplete="email"/>
     <select id="rsvp-guests" name="guests" required>
       <option value="" disabled selected>Number of Guests</option>
       <option value="1">1 Guest</option>
@@ -904,14 +903,13 @@
     const err    = document.getElementById('rsvp-error');
     const first  = document.getElementById('rsvp-first').value.trim();
     const last   = document.getElementById('rsvp-last').value.trim();
-    const email  = document.getElementById('rsvp-email').value.trim();
     const guests = document.getElementById('rsvp-guests').value;
 
     btn.textContent = 'Sending…';
     btn.disabled = true;
     ok.style.display = err.style.display = 'none';
 
-    fetch(RSVP_URL + '?' + new URLSearchParams({ firstName: first, lastName: last, email, guests }), {
+    fetch(RSVP_URL + '?' + new URLSearchParams({ firstName: first, lastName: last, email: '', guests }), {
       mode: 'no-cors'
     })
     .then(() => {
